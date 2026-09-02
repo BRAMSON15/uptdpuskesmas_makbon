@@ -20,7 +20,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 //tempat custom link url atau domain hosting
 $CUSTOM_BASE_URL = 'https://uptdpuskesmasmakbon.com/index.php'; // Kosongi untuk auto-detect (localhost), atau isi dengan URL ngrok tanpa trailing space
-
+//$CUSTOM_BASE_URL = 'http://localhost/puskesmas-makbon/index.php'; // Kosongi untuk auto-detect (localhost), atau isi dengan URL ngrok tanpa trailing space
 if (!defined('BASE_URL')) {
     if (!empty(trim($CUSTOM_BASE_URL))) {
         // Pakai URL manual (ngrok, dll)
@@ -38,7 +38,7 @@ if (!defined('BASE_URL')) {
 
 /** Mendapatkan URL lengkap dari path relatif */
 function base_url($path = '')
-{
+{ 
     return BASE_URL . ltrim($path, '/');
 }
 
@@ -105,4 +105,19 @@ function nomor_antrian_berikutnya(PDO $pdo, $id_layanan, $tanggal)
     $stmt->execute([$id_layanan, $tanggal]);
     $row = $stmt->fetch();
     return ((int)($row['max_no'] ?? 0)) + 1;
+}
+
+/** Format nomor antrian agar unik per layanan (Contoh: PF-001) */
+function format_nomor_antrian($nomor, $layanan)
+{
+    $words = explode(' ', str_replace(['&', '-'], '', strtoupper($layanan)));
+    $prefix = '';
+    foreach ($words as $w) {
+        if (trim($w) !== '') {
+            $prefix .= $w[0];
+        }
+        if (strlen($prefix) >= 2) break;
+    }
+    if (empty($prefix)) $prefix = 'Q';
+    return $prefix . '-' . str_pad($nomor, 3, '0', STR_PAD_LEFT);
 }

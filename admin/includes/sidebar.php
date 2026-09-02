@@ -1,7 +1,7 @@
 <?php $current = basename($_SERVER['SCRIPT_NAME']); ?>
 <aside class="sidebar">
     <div class="side-brand">
-        <img src="<?= base_url('assets/img/logo.png') ?>" alt="Logo">
+        <img src="../assets/img/logo.png" alt="Logo" style="height:40px; width:40px; object-fit:contain;">
         <div>
             Puskesmas Makbon
             <small>Panel Admin</small>
@@ -13,6 +13,7 @@
     <a href="jadwal.php" class="<?= $current === 'jadwal.php' ? 'active' : '' ?>"><i class="lni lni-calendar"></i> Jadwal Operasional</a>
     <a href="antrian.php" class="<?= $current === 'antrian.php' ? 'active' : '' ?>"><i class="lni lni-list"></i> Antrian Online</a>
     <a href="tracking.php" class="<?= $current === 'tracking.php' ? 'active' : '' ?>"><i class="lni lni-map-marker"></i> Tracking Antrian</a>
+    <a href="struktur_organisasi.php" class="<?= $current === 'struktur_organisasi.php' ? 'active' : '' ?>"><i class="lni lni-network"></i> Struktur Organisasi</a>
     <a href="petugas.php" class="<?= $current === 'petugas.php' ? 'active' : '' ?>"><i class="lni lni-users"></i> Kelola Petugas</a>
     <a href="saran.php" class="<?= $current === 'saran.php' ? 'active' : '' ?>"><i class="lni lni-comments"></i> Saran & Masukan</a>
     <a href="kontak.php" class="<?= $current === 'kontak.php' ? 'active' : '' ?>"><i class="lni lni-phone"></i> Kontak</a>

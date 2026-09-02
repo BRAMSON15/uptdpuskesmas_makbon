@@ -23,7 +23,7 @@ if (!$data) {
 
         <div class="p-4 mb-4" style="background:#0d7c66; color:#fff; border-radius:12px;">
             <div class="text-uppercase mb-2" style="font-size:0.85rem; letter-spacing:1px; opacity:0.8;">Nomor Antrian</div>
-            <div class="display-3 font-weight-bold mb-2"><?= clean($data['nomor_antrian']) ?></div>
+            <div class="display-3 font-weight-bold mb-2"><?= format_nomor_antrian($data['nomor_antrian'], $data['layanan']) ?></div>
             <div style="font-size:0.9rem; opacity:0.85;"><?= clean($data['layanan']) ?></div>
         </div>
 
@@ -44,3 +44,4 @@ if (!$data) {
 </div>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>
+

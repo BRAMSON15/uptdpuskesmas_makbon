@@ -24,9 +24,16 @@ if (isset($_GET['aksi'], $_GET['id'])) {
     redirect('antrian.php');
 }
 
-$filterTanggal = trim($_GET['tanggal'] ?? date('Y-m-d'));
-$stmt = $pdo->prepare("SELECT * FROM antrian_online WHERE tanggal_antrian = ? ORDER BY FIELD(status,'Menunggu','Diproses','Selesai','Dibatalkan'), nomor_antrian ASC");
-$stmt->execute([$filterTanggal]);
+$filterTanggal = $_GET['tanggal'] ?? '';
+
+if ($filterTanggal !== '') {
+    $stmt = $pdo->prepare("SELECT * FROM antrian_online WHERE tanggal_antrian = ? ORDER BY FIELD(status,'Menunggu','Diproses','Selesai','Dibatalkan'), nomor_antrian ASC");
+    $stmt->execute([$filterTanggal]);
+    $keteranganTabel = "pada tanggal " . tanggal_indo($filterTanggal);
+} else {
+    $stmt = $pdo->query("SELECT * FROM antrian_online WHERE tanggal_antrian >= CURDATE() ORDER BY tanggal_antrian ASC, FIELD(status,'Menunggu','Diproses','Selesai','Dibatalkan'), nomor_antrian ASC");
+    $keteranganTabel = "hari ini dan mendatang";
+}
 $daftar = $stmt->fetchAll();
 
 require_once __DIR__ . '/includes/layout_top.php';
@@ -35,17 +42,21 @@ require_once __DIR__ . '/includes/layout_top.php';
 <div class="panel">
     <div class="panel-head">
         <h2>Daftar Antrian Online</h2>
-        <form method="GET" style="display:flex;gap:8px;">
-            <input type="date" name="tanggal" value="<?= clean($filterTanggal) ?>" style="padding:8px;border:1px solid var(--border);border-radius:6px;">
-            <button type="submit" class="btn btn-secondary btn-sm">Filter</button>
+        <form method="GET" style="display:flex;gap:8px; align-items:center;">
+            <input type="date" name="tanggal" value="<?= clean($filterTanggal) ?>" style="padding:8px;border:1px solid #dce4e1;border-radius:6px; font-family:inherit;">
+            <button type="submit" class="btn btn-secondary btn-sm" style="padding: 8px 16px;">Filter</button>
+            <?php if ($filterTanggal !== ''): ?>
+                <a href="antrian.php" class="btn btn-primary btn-sm" style="padding: 8px 16px; background:#e74c3c; border-color:#e74c3c;">Reset</a>
+            <?php endif; ?>
         </form>
     </div>
     <table>
-        <thead><tr><th>No.</th><th>Pasien</th><th>No. HP</th><th>Layanan</th><th>Status</th><th>Aksi</th></tr></thead>
+        <thead><tr><th>Tanggal</th><th>No.</th><th>Pasien</th><th>No. HP</th><th>Layanan</th><th>Status</th><th>Aksi</th></tr></thead>
         <tbody>
         <?php foreach ($daftar as $d): ?>
             <tr>
-                <td><?= $d['nomor_antrian'] ?></td>
+                <td><?= tanggal_indo($d['tanggal_antrian']) ?></td>
+                <td><?= format_nomor_antrian($d['nomor_antrian'], $d['layanan']) ?></td>
                 <td><?= clean($d['nama_pasien']) ?></td>
                 <td><?= clean($d['no_hp']) ?></td>
                 <td><?= clean($d['layanan']) ?></td>
@@ -57,16 +68,17 @@ require_once __DIR__ . '/includes/layout_top.php';
                     <?php elseif ($d['status'] === 'Diproses'): ?>
                         <a href="?aksi=selesai&id=<?= $d['id_antrian'] ?>" class="btn btn-primary btn-sm">Selesaikan</a>
                     <?php else: ?>
-                        <span style="color:var(--muted);font-size:0.85rem;">Tidak ada aksi</span>
+                        <span style="color:var(--muted);font-size:0.85rem;">Selesai/Batal</span>
                     <?php endif; ?>
                 </td>
             </tr>
         <?php endforeach; ?>
         <?php if (empty($daftar)): ?>
-            <tr><td colspan="6" class="empty-state">Belum ada antrian pada tanggal ini.</td></tr>
+            <tr><td colspan="7" class="empty-state">Belum ada antrian <?= $keteranganTabel ?>.</td></tr>
         <?php endif; ?>
         </tbody>
     </table>
 </div>
 
 <?php require_once __DIR__ . '/includes/layout_bottom.php'; ?>
+

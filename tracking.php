@@ -44,7 +44,7 @@ if ($id_antrian !== '') {
             <table class="table table-bordered">
                 <tr><th width="35%">Nama Pasien</th><td><?= clean($data['nama_pasien']) ?></td></tr>
                 <tr><th>Layanan</th><td><?= clean($data['layanan']) ?></td></tr>
-                <tr><th>Nomor Antrian</th><td><?= clean($data['nomor_antrian']) ?></td></tr>
+                <tr><th>Nomor Antrian</th><td><?= format_nomor_antrian($data['nomor_antrian'], $data['layanan']) ?></td></tr>
                 <tr><th>Tanggal Kunjungan</th><td><?= tanggal_indo($data['tanggal_antrian']) ?></td></tr>
             </table>
         </div>
@@ -64,3 +64,4 @@ if ($id_antrian !== '') {
 <?php endif; ?>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>
+

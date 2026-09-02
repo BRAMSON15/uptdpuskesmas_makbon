@@ -216,10 +216,54 @@
             transition: all 0.2s;
         }
         .btn-sm { padding: 6px 12px; font-size: 0.85rem; }
-        .form-control {
+        .form-control, .panel input[type="text"], .panel input[type="email"],
+        .panel input[type="number"], .panel input[type="password"],
+        .panel input[type="file"], .panel input[type="date"],
+        .panel select, .panel textarea {
+            width: 100%;
             border-radius: 8px;
             border: 1px solid #dce4e1;
-            padding: 10px 15px;
+            padding: 10px 14px;
+            font-size: 0.95rem;
+            font-family: 'Outfit', sans-serif;
+            color: var(--text-main);
+            background: #f9fbfa;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            box-sizing: border-box;
+        }
+        .panel input[type="text"]:focus, .panel input[type="email"]:focus,
+        .panel input[type="number"]:focus, .panel input[type="password"]:focus,
+        .panel input[type="date"]:focus, .panel select:focus, .panel textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(13, 124, 102, 0.12);
+            background: #fff;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .form-group label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 0;
+        }
+        .form-row .form-group {
+            margin-bottom: 0;
+        }
+        .panel textarea {
+            resize: vertical;
+            min-height: 90px;
         }
         .form-control:focus {
             box-shadow: 0 0 0 3px rgba(13, 124, 102, 0.15);

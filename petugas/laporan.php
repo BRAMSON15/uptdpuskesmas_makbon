@@ -88,7 +88,7 @@ require_once __DIR__ . '/includes/layout_top.php';
         <tbody>
         <?php foreach ($antrianHarian as $a): ?>
             <tr>
-                <td><?= $a['nomor_antrian'] ?></td>
+                <td><?= format_nomor_antrian($a['nomor_antrian'], $a['layanan']) ?></td>
                 <td><?= clean($a['nama_pasien']) ?></td>
                 <td><?= clean($a['layanan']) ?></td>
                 <td><?= badge_status($a['status']) ?></td>
@@ -102,3 +102,4 @@ require_once __DIR__ . '/includes/layout_top.php';
 </div>
 
 <?php require_once __DIR__ . '/includes/layout_bottom.php'; ?>
+

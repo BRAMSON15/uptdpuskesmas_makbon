@@ -61,57 +61,68 @@ require_once __DIR__ . '/includes/layout_top.php';
 <div class="panel">
     <div class="panel-head"><h2>Kelola Beranda, Profil, Visi & Misi, Sejarah</h2></div>
     <form method="POST" enctype="multipart/form-data">
+
         <div class="form-group">
             <label>Nama Puskesmas</label>
-            <input type="text" name="nama_puskesmas" value="<?= clean($profil['nama_puskesmas'] ?? '') ?>" required>
+            <input type="text" name="nama_puskesmas" value="<?= clean($profil['nama_puskesmas'] ?? '') ?>" required placeholder="Nama lengkap puskesmas">
         </div>
+
         <div class="form-group">
             <label>Deskripsi Beranda</label>
-            <textarea name="deskripsi_beranda" rows="2"><?= clean($profil['deskripsi_beranda'] ?? '') ?></textarea>
+            <textarea name="deskripsi_beranda" rows="3" placeholder="Kalimat singkat yang tampil di halaman utama..."><?= clean($profil['deskripsi_beranda'] ?? '') ?></textarea>
         </div>
+
         <div class="form-row">
             <div class="form-group">
                 <label>Visi</label>
-                <textarea name="visi" rows="3"><?= clean($profil['visi'] ?? '') ?></textarea>
+                <textarea name="visi" rows="5" placeholder="Visi puskesmas..."><?= clean($profil['visi'] ?? '') ?></textarea>
             </div>
             <div class="form-group">
                 <label>Misi</label>
-                <textarea name="misi" rows="3"><?= clean($profil['misi'] ?? '') ?></textarea>
+                <textarea name="misi" rows="5" placeholder="Misi puskesmas (pisahkan tiap poin dengan baris baru)..."><?= clean($profil['misi'] ?? '') ?></textarea>
             </div>
         </div>
+
         <div class="form-group">
             <label>Sejarah</label>
-            <textarea name="sejarah" rows="4"><?= clean($profil['sejarah'] ?? '') ?></textarea>
+            <textarea name="sejarah" rows="5" placeholder="Sejarah singkat puskesmas..."><?= clean($profil['sejarah'] ?? '') ?></textarea>
         </div>
+
         <div class="form-group">
             <label>Alamat</label>
-            <textarea name="alamat" rows="2"><?= clean($profil['alamat'] ?? '') ?></textarea>
+            <textarea name="alamat" rows="2" placeholder="Alamat lengkap puskesmas..."><?= clean($profil['alamat'] ?? '') ?></textarea>
         </div>
+
         <div class="form-row">
             <div class="form-group">
-                <label>Kontak (Telp/WA)</label>
-                <input type="text" name="kontak" value="<?= clean($profil['kontak'] ?? '') ?>">
+                <label>Kontak (Telp / WA)</label>
+                <input type="text" name="kontak" value="<?= clean($profil['kontak'] ?? '') ?>" placeholder="Contoh: 081234567890">
             </div>
             <div class="form-group">
                 <label>Email</label>
-                <input type="email" name="email" value="<?= clean($profil['email'] ?? '') ?>">
+                <input type="email" name="email" value="<?= clean($profil['email'] ?? '') ?>" placeholder="email@puskesmas.com">
             </div>
         </div>
+
         <div class="form-group">
-            <label>Jam Operasional (ringkas)</label>
-            <input type="text" name="jam_operasional" value="<?= clean($profil['jam_operasional'] ?? '') ?>">
+            <label>Jam Operasional (Ringkas)</label>
+            <input type="text" name="jam_operasional" value="<?= clean($profil['jam_operasional'] ?? '') ?>" placeholder="Contoh: Senin - Sabtu, 08.00 - 14.00 WIT">
         </div>
+
         <div class="form-group">
-            <label>QR Code BPJS (Opsional)</label><br>
+            <label>QR Code BPJS (Opsional)</label>
             <?php if (!empty($profil['qr_bpjs'])): ?>
-                <div class="mb-2">
-                    <img src="<?= base_url('assets/storage/qr/' . $profil['qr_bpjs']) ?>" alt="QR Code BPJS" style="max-height: 150px; border: 1px solid #ccc; border-radius: 8px;">
+                <div style="margin-bottom: 10px;">
+                    <img src="<?= base_url('storage/app/public/qr/' . $profil['qr_bpjs']) ?>" alt="QR Code BPJS" style="max-height: 150px; border: 1px solid #dce4e1; border-radius: 8px; padding: 4px;">
                 </div>
             <?php endif; ?>
-            <input type="file" name="qr_bpjs" class="form-control" accept="image/*">
-            <small class="text-muted">Biarkan kosong jika tidak ingin mengubah QR Code. Format yang didukung: JPG, PNG.</small>
+            <input type="file" name="qr_bpjs" accept="image/*">
+            <small style="color: #888; font-size:0.83rem;">Biarkan kosong jika tidak ingin mengubah QR Code. Format: JPG, PNG.</small>
         </div>
-        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+
+        <button type="submit" class="btn btn-primary" style="margin-top:10px; padding: 12px 32px;">
+            <i class="lni lni-save"></i> Simpan Perubahan
+        </button>
     </form>
 </div>
 

@@ -23,8 +23,19 @@ $base = $base ?? '';
     <link rel="stylesheet" href="<?= $base ?>assets/traveland/css/style.css">
 
     <style>
-        .navbar-brand-text { font-size: 1.4rem; font-weight: 700; color: #fff; letter-spacing: .02em; }
+        .navbar-brand-text { font-size: 1.3rem; font-weight: 700; color: #fff; letter-spacing: .02em; }
         .header_navbar .navbar-brand-text { color: #17332c; }
+        @media (min-width: 992px) {
+            .navbar-nav .nav-item a { padding: 10px 14px !important; font-size: 0.95rem !important; }
+            .navbar-brand-text { font-size: 1.15rem; }
+            .navbar-brand-text img { height: 40px !important; margin-right: 8px !important; }
+        }
+        @media (max-width: 767px) {
+            .navbar-brand-text { font-size: 1rem; }
+            .navbar-brand-text img { height: 35px !important; margin-right: 8px !important; }
+            .navbar-brand-text span { max-width: 200px; white-space: normal; line-height: 1.2; display: inline-block; }
+            .navbar-toggler { padding: 4px 8px; }
+        }
         .header_slider_mini {
             height: 350px;
             position: relative;
@@ -73,7 +84,7 @@ $base = $base ?? '';
                                     <li class="nav-item <?= (isset($page_title) && $page_title == 'Layanan') ? 'active' : '' ?>"><a href="<?= $base ?>layanan.php">Layanan</a></li>
                                     <li class="nav-item <?= (isset($page_title) && $page_title == 'Jadwal') ? 'active' : '' ?>"><a href="<?= $base ?>jadwal.php">Jadwal</a></li>
                                     <li class="nav-item <?= (isset($page_title) && $page_title == 'Kontak') ? 'active' : '' ?>"><a href="<?= $base ?>kontak.php">Kontak</a></li>
-                                    <li class="nav-item <?= (isset($page_title) && $page_title == 'Tracking Antrian') ? 'active' : '' ?>"><a href="<?= $base ?>tracking.php">Tracking Antrian</a></li>
+                                    <li class="nav-item <?= (isset($page_title) && $page_title == 'Tracking Antrian') ? 'active' : '' ?>"><a href="<?= $base ?>tracking.php">Cek Antrian</a></li>
                                 </ul>
                             </div>
                         </nav>

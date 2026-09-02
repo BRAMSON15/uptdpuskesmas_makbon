@@ -42,3 +42,4 @@ require_once __DIR__ . '/includes/layout_top.php';
 </div>
 
 <?php require_once __DIR__ . '/includes/layout_bottom.php'; ?>
+

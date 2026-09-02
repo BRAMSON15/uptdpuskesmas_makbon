@@ -40,8 +40,33 @@ require_once __DIR__ . '/includes/layout_top.php';
             <tr><td><strong>Nama Pasien</strong></td><td><?= clean($hasil['nama_pasien']) ?></td></tr>
             <tr><td><strong>No. HP</strong></td><td><?= clean($hasil['no_hp']) ?></td></tr>
             <tr><td><strong>Layanan</strong></td><td><?= clean($hasil['layanan']) ?></td></tr>
-            <tr><td><strong>Tanggal</strong></td><td><?= tanggal_indo($hasil['tanggal_antrian']) ?></td></tr>
-            <tr><td><strong>Nomor Antrian</strong></td><td><?= $hasil['nomor_antrian'] ?></td></tr>
+            <tr>
+                <td><strong>Tanggal</strong></td>
+                <td>
+                    <?= tanggal_indo($hasil['tanggal_antrian']) ?>
+                    <?php
+                        $tgl_antrian = strtotime($hasil['tanggal_antrian']);
+                        $tgl_sekarang = strtotime(date('Y-m-d'));
+                        $selisih = ($tgl_antrian - $tgl_sekarang) / 86400; // 60 * 60 * 24
+                        
+                        $hari_indo = ['Sunday' => 'Minggu', 'Monday' => 'Senin', 'Tuesday' => 'Selasa', 'Wednesday' => 'Rabu', 'Thursday' => 'Kamis', 'Friday' => 'Jumat', 'Saturday' => 'Sabtu'];
+                        $nama_hari = $hari_indo[date('l', $tgl_antrian)];
+
+                        if ($selisih == 0) {
+                            echo " <span style='color: #28a745; font-weight: bold;'>(Hari Ini)</span>";
+                        } elseif ($selisih == 1) {
+                            echo " <span style='color: #17a2b8; font-weight: bold;'>(Besok)</span>";
+                        } elseif ($selisih == 2) {
+                            echo " <span style='color: #ffc107; font-weight: bold;'>(Lusa)</span>";
+                        } elseif ($selisih < 0) {
+                            echo " <span style='color: #dc3545; font-weight: bold;'>(Sudah Lewat)</span>";
+                        } else {
+                            echo " <span style='color: var(--primary); font-weight: bold;'>(Hari " . $nama_hari . ")</span>";
+                        }
+                    ?>
+                </td>
+            </tr>
+            <tr><td><strong>Nomor Antrian</strong></td><td><?= format_nomor_antrian($hasil['nomor_antrian'], $hasil['layanan']) ?></td></tr>
             <tr><td><strong>Status</strong></td><td><?= badge_status($hasil['status']) ?></td></tr>
         </table>
         <?php if ($hasil['status'] === 'Menunggu'): ?>
@@ -53,3 +78,4 @@ require_once __DIR__ . '/includes/layout_top.php';
 </div>
 
 <?php require_once __DIR__ . '/includes/layout_bottom.php'; ?>
+

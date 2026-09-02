@@ -3,12 +3,33 @@ require_once __DIR__ . '/includes/auth.php';
 require_once __DIR__ . '/../config/database.php';
 $page_title = 'Dashboard';
 
+// Statistik hari ini
 $antrianHariIni = $pdo->query("SELECT COUNT(*) c FROM antrian_online WHERE tanggal_antrian = CURDATE()")->fetch()['c'];
 $menunggu       = $pdo->query("SELECT COUNT(*) c FROM antrian_online WHERE status = 'Menunggu' AND tanggal_antrian = CURDATE()")->fetch()['c'];
 $diproses       = $pdo->query("SELECT COUNT(*) c FROM antrian_online WHERE status = 'Diproses' AND tanggal_antrian = CURDATE()")->fetch()['c'];
 $selesai        = $pdo->query("SELECT COUNT(*) c FROM antrian_online WHERE status = 'Selesai' AND tanggal_antrian = CURDATE()")->fetch()['c'];
 
-$antrianHariIniList = $pdo->query("SELECT * FROM antrian_online WHERE tanggal_antrian = CURDATE() ORDER BY FIELD(status,'Menunggu','Diproses','Selesai','Dibatalkan'), nomor_antrian ASC")->fetchAll();
+// Statistik total keseluruhan
+$totalMenunggu  = $pdo->query("SELECT COUNT(*) c FROM antrian_online WHERE status = 'Menunggu'")->fetch()['c'];
+$totalDiproses  = $pdo->query("SELECT COUNT(*) c FROM antrian_online WHERE status = 'Diproses'")->fetch()['c'];
+$totalSelesai   = $pdo->query("SELECT COUNT(*) c FROM antrian_online WHERE status = 'Selesai'")->fetch()['c'];
+$totalSemua     = $pdo->query("SELECT COUNT(*) c FROM antrian_online")->fetch()['c'];
+
+// Daftar antrian hari ini, jika kosong tampilkan yang akan datang
+$antrianHariIniList = $pdo->query(
+    "SELECT * FROM antrian_online WHERE tanggal_antrian = CURDATE()
+     ORDER BY FIELD(status,'Menunggu','Diproses','Selesai','Dibatalkan'), nomor_antrian ASC"
+)->fetchAll();
+
+$labelSumber = 'Hari Ini';
+if (empty($antrianHariIniList)) {
+    // Tampilkan antrian mendatang jika tidak ada yang hari ini
+    $antrianHariIniList = $pdo->query(
+        "SELECT * FROM antrian_online WHERE tanggal_antrian >= CURDATE()
+         ORDER BY tanggal_antrian ASC, nomor_antrian ASC LIMIT 10"
+    )->fetchAll();
+    $labelSumber = 'Mendatang';
+}
 
 require_once __DIR__ . '/includes/layout_top.php';
 ?>
@@ -18,8 +39,8 @@ require_once __DIR__ . '/includes/layout_top.php';
         <div class="card text-white stat-card-modern" style="background: linear-gradient(135deg, #0d7c66 0%, #119e83 100%);">
             <i class="lni lni-users icon-bg text-white"></i>
             <div class="card-body">
-                <h3 class="mb-0"><?= $antrianHariIni ?></h3>
-                <small>Total Hari Ini</small>
+                <h3 class="mb-0"><?= $totalSemua ?></h3>
+                <small>Total Semua Antrian</small>
             </div>
         </div>
     </div>
@@ -27,7 +48,7 @@ require_once __DIR__ . '/includes/layout_top.php';
         <div class="card text-white stat-card-modern" style="background: linear-gradient(135deg, #f39c12 0%, #f1c40f 100%);">
             <i class="lni lni-timer icon-bg text-white"></i>
             <div class="card-body">
-                <h3 class="mb-0"><?= $menunggu ?></h3>
+                <h3 class="mb-0"><?= $totalMenunggu ?></h3>
                 <small>Menunggu</small>
             </div>
         </div>
@@ -36,7 +57,7 @@ require_once __DIR__ . '/includes/layout_top.php';
         <div class="card text-white stat-card-modern" style="background: linear-gradient(135deg, #2980b9 0%, #3498db 100%);">
             <i class="lni lni-spinner-solid icon-bg text-white"></i>
             <div class="card-body">
-                <h3 class="mb-0"><?= $diproses ?></h3>
+                <h3 class="mb-0"><?= $totalDiproses ?></h3>
                 <small>Diproses</small>
             </div>
         </div>
@@ -45,7 +66,7 @@ require_once __DIR__ . '/includes/layout_top.php';
         <div class="card text-white stat-card-modern" style="background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);">
             <i class="lni lni-checkmark icon-bg text-white"></i>
             <div class="card-body">
-                <h3 class="mb-0"><?= $selesai ?></h3>
+                <h3 class="mb-0"><?= $totalSelesai ?></h3>
                 <small>Selesai</small>
             </div>
         </div>
@@ -56,22 +77,23 @@ require_once __DIR__ . '/includes/layout_top.php';
     <div class="col-lg-8">
         <div class="panel">
             <div class="panel-head">
-                <h2>Antrian Hari Ini</h2>
+                <h2>Antrian <?= $labelSumber ?></h2>
                 <a href="antrian.php" class="btn btn-secondary btn-sm">Kelola Antrian</a>
             </div>
             <table>
-                <thead><tr><th>No.</th><th>Pasien</th><th>Layanan</th><th>Status</th></tr></thead>
+                <thead><tr><th>No.</th><th>Pasien</th><th>Layanan</th><th>Tanggal</th><th>Status</th></tr></thead>
                 <tbody>
                     <?php foreach ($antrianHariIniList as $a): ?>
                     <tr>
-                        <td><?= $a['nomor_antrian'] ?></td>
+                        <td><?= format_nomor_antrian($a['nomor_antrian'], $a['layanan']) ?></td>
                         <td><?= clean($a['nama_pasien']) ?></td>
                         <td><?= clean($a['layanan']) ?></td>
+                        <td><?= tanggal_indo($a['tanggal_antrian']) ?></td>
                         <td><?= badge_status($a['status']) ?></td>
                     </tr>
                     <?php endforeach; ?>
                     <?php if (empty($antrianHariIniList)): ?>
-                    <tr><td colspan="4" class="empty-state">Belum ada antrian hari ini.</td></tr>
+                    <tr><td colspan="5" class="empty-state">Belum ada data antrian.</td></tr>
                     <?php endif; ?>
                 </tbody>
             </table>
@@ -80,10 +102,32 @@ require_once __DIR__ . '/includes/layout_top.php';
     <div class="col-lg-4">
         <div class="panel">
             <div class="panel-head">
-                <h2>Statistik Antrian</h2>
+                <h2>Statistik Antrian <?= $labelSumber ?></h2>
             </div>
-            <div style="position: relative; height:300px; width:100%">
-                <canvas id="antrianChart"></canvas>
+            <?php 
+                // Gunakan statistik hari ini. Jika kosong, gunakan statistik keseluruhan
+                $chartMenunggu = $menunggu > 0 || $diproses > 0 || $selesai > 0 ? $menunggu : $totalMenunggu;
+                $chartDiproses = $menunggu > 0 || $diproses > 0 || $selesai > 0 ? $diproses : $totalDiproses;
+                $chartSelesai  = $menunggu > 0 || $diproses > 0 || $selesai > 0 ? $selesai : $totalSelesai;
+                $totalChart = $chartMenunggu + $chartDiproses + $chartSelesai; 
+            ?>
+            <?php if ($totalChart > 0): ?>
+                <div style="position: relative; height:260px; width:100%">
+                    <canvas id="antrianChart"></canvas>
+                </div>
+            <?php else: ?>
+                <div style="text-align:center; padding: 40px 20px; color:#aaa;">
+                    <i class="lni lni-bar-chart" style="font-size:3rem; display:block; margin-bottom:12px;"></i>
+                    <p style="font-size:0.9rem;">Belum ada data antrian.<br>Statistik akan muncul saat ada antrian masuk.</p>
+                </div>
+                <div style="position: relative; height:80px; width:100%">
+                    <canvas id="antrianChart"></canvas>
+                </div>
+            <?php endif; ?>
+            <div style="margin-top:12px; display:flex; gap:14px; justify-content:center; font-size:0.82rem;">
+                <span><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#ffc107;margin-right:4px;"></span>Menunggu <strong><?= $chartMenunggu ?></strong></span>
+                <span><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#17a2b8;margin-right:4px;"></span>Diproses <strong><?= $chartDiproses ?></strong></span>
+                <span><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#28a745;margin-right:4px;"></span>Selesai <strong><?= $chartSelesai ?></strong></span>
             </div>
         </div>
     </div>
@@ -93,26 +137,35 @@ require_once __DIR__ . '/includes/layout_top.php';
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     var ctx = document.getElementById('antrianChart').getContext('2d');
+    var total = <?= $totalChart ?? 0 ?>;
     var antrianChart = new Chart(ctx, {
-        type: 'pie',
+        type: 'doughnut',
         data: {
             labels: ['Menunggu', 'Diproses', 'Selesai'],
             datasets: [{
-                data: [<?= $menunggu ?>, <?= $diproses ?>, <?= $selesai ?>],
-                backgroundColor: [
-                    '#ffc107', // warning
-                    '#17a2b8', // info
-                    '#28a745'  // success
-                ],
-                borderWidth: 1
+                data: total > 0
+                    ? [<?= $chartMenunggu ?>, <?= $chartDiproses ?>, <?= $chartSelesai ?>]
+                    : [1, 1, 1],
+                backgroundColor: total > 0
+                    ? ['#ffc107', '#17a2b8', '#28a745']
+                    : ['#e9ecef', '#dee2e6', '#ced4da'],
+                borderWidth: total > 0 ? 2 : 0,
+                borderColor: '#fff'
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            cutout: '60%',
             plugins: {
-                legend: {
-                    position: 'bottom',
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: function(ctx) {
+                            if (total === 0) return 'Tidak ada data';
+                            return ctx.label + ': ' + ctx.raw;
+                        }
+                    }
                 }
             }
         }
@@ -121,3 +174,4 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <?php require_once __DIR__ . '/includes/layout_bottom.php'; ?>
+

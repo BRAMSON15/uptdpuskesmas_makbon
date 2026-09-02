@@ -11,7 +11,32 @@ $jadwalList  = $pdo->query("SELECT * FROM jadwal_operasional ORDER BY FIELD(hari
 $totalLayanan = $pdo->query("SELECT COUNT(*) c FROM layanan WHERE status='Aktif'")->fetch()['c'];
 $totalPetugas = $pdo->query("SELECT COUNT(*) c FROM petugas")->fetch()['c'];
 $totalAntrianHariIni = $pdo->query("SELECT COUNT(*) c FROM antrian_online WHERE tanggal_antrian = CURDATE()")->fetch()['c'];
-$totalPasienTerlayani = $pdo->query("SELECT COUNT(DISTINCT nama_pasien) c FROM antrian_online WHERE status='Selesai'")->fetch()['c'];
+$totalAntrianSemua   = $pdo->query("SELECT COUNT(*) c FROM antrian_online")->fetch()['c'];
+$totalPasienTerlayani = $pdo->query("SELECT COUNT(DISTINCT nama_pasien) c FROM antrian_online")->fetch()['c'];
+
+$strukturList = $pdo->query("SELECT * FROM struktur_organisasi ORDER BY urutan ASC, id ASC")->fetchAll();
+
+function buildFrontTree($elements, $parentId = null) {
+    $html = '';
+    $children = array_filter($elements, function($e) use ($parentId) {
+        return $e['parent_id'] == $parentId;
+    });
+    
+    if (count($children) > 0) {
+        $html .= '<ul>';
+        foreach ($children as $child) {
+            $html .= '<li>';
+            $html .= '<div class="node-box">';
+            $html .= '<span class="jabatan">' . clean($child['jabatan']) . '</span>';
+            $html .= '<span class="nama">' . clean($child['nama']) . '</span>';
+            $html .= '</div>';
+            $html .= buildFrontTree($elements, $child['id']);
+            $html .= '</li>';
+        }
+        $html .= '</ul>';
+    }
+    return $html;
+}
 
 $iconMap = ['BPJS' => 'lni-shield', 'Non BPJS' => 'lni-heart-monitor'];
 ?>
@@ -31,8 +56,19 @@ $iconMap = ['BPJS' => 'lni-shield', 'Non BPJS' => 'lni-heart-monitor'];
     <link rel="stylesheet" href="assets/traveland/css/style.css">
     <style>
         /* ==== Penyesuaian kecil khusus Puskesmas Makbon (di luar template asli) ==== */
-        .navbar-brand-text { font-size: 1.4rem; font-weight: 700; color: #fff; letter-spacing: .02em; }
+        .navbar-brand-text { font-size: 1.3rem; font-weight: 700; color: #fff; letter-spacing: .02em; }
         .header_navbar .navbar-brand-text { color: #17332c; }
+        @media (min-width: 992px) {
+            .navbar-nav .nav-item a { padding: 10px 14px !important; font-size: 0.95rem !important; }
+            .navbar-brand-text { font-size: 1.15rem; }
+            .navbar-brand-text img { height: 40px !important; margin-right: 8px !important; }
+        }
+        @media (max-width: 767px) {
+            .navbar-brand-text { font-size: 1rem; }
+            .navbar-brand-text img { height: 35px !important; margin-right: 8px !important; }
+            .navbar-brand-text span { max-width: 200px; white-space: normal; line-height: 1.2; display: inline-block; }
+            .navbar-toggler { padding: 4px 8px; }
+        }
         .tag-mini { display:inline-block; font-size:.72rem; font-weight:700; padding:3px 12px; border-radius:12px; margin-bottom:12px; }
         .tag-bpjs { background:#e4f4ec; color:#1f8a55; }
         .tag-nonbpjs { background:#fdf1de; color:#a5680f; }
@@ -44,6 +80,24 @@ $iconMap = ['BPJS' => 'lni-shield', 'Non BPJS' => 'lni-heart-monitor'];
         .top_info_bar a { color:#cfe9df; }
         .top_info_bar .lni { margin-right:6px; }
         section#jadwal, section#kontak { background:#f7faf9; }
+        
+        /* Struktur Organisasi Tree CSS */
+        .org-chart-container { overflow-x: auto; padding: 20px 0; text-align: center; }
+        .org-chart { display: inline-block; white-space: nowrap; }
+        .org-chart ul { padding-top: 20px; position: relative; transition: all 0.5s; display: flex; justify-content: center; padding-left: 0; }
+        .org-chart li { float: left; text-align: center; list-style-type: none; position: relative; padding: 20px 5px 0 5px; transition: all 0.5s; }
+        .org-chart li::before, .org-chart li::after { content: ''; position: absolute; top: 0; right: 50%; border-top: 2px solid #0d7c66; width: 50%; height: 20px; }
+        .org-chart li::after { right: auto; left: 50%; border-left: 2px solid #0d7c66; }
+        .org-chart li:only-child::after, .org-chart li:only-child::before { display: none; }
+        .org-chart li:only-child { padding-top: 0; }
+        .org-chart li:first-child::before, .org-chart li:last-child::after { border: 0 none; }
+        .org-chart li:last-child::before { border-right: 2px solid #0d7c66; border-radius: 0 5px 0 0; }
+        .org-chart li:first-child::after { border-radius: 5px 0 0 0; }
+        .org-chart ul ul::before { content: ''; position: absolute; top: 0; left: 50%; border-left: 2px solid #0d7c66; width: 0; height: 20px; }
+        .org-chart li .node-box { border: 2px solid #0d7c66; padding: 15px 20px; text-decoration: none; color: #333; display: inline-block; border-radius: 8px; transition: all 0.5s; background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.1); min-width: 150px; white-space: nowrap; }
+        .org-chart li .node-box .jabatan { font-weight: 700; display: block; color: #0d3d33; margin-bottom: 5px; font-size: 14px; }
+        .org-chart li .node-box .nama { font-size: 13px; color: #555; }
+        .org-chart li .node-box:hover { background: #e4f4ec; transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0,0,0,0.15); }
     </style>
 </head>
 <body>
@@ -68,11 +122,12 @@ $iconMap = ['BPJS' => 'lni-shield', 'Non BPJS' => 'lni-heart-monitor'];
                                 <ul id="nav" class="navbar-nav ml-auto">
                                     <li class="nav-item active"><a class="page-scroll" href="#home">Beranda</a></li>
                                     <li class="nav-item"><a class="page-scroll" href="#about">Profil</a></li>
+                                    <li class="nav-item"><a class="page-scroll" href="#struktur-organisasi">Struktur</a></li>
                                     <li class="nav-item"><a class="page-scroll" href="#layanan">Layanan</a></li>
-                                    <li class="nav-item"><a class="page-scroll" href="#alur">Cara Kerja</a></li>
+                                    <li class="nav-item"><a class="page-scroll" href="#alur">Alur</a></li>
                                     <li class="nav-item"><a class="page-scroll" href="#jadwal">Jadwal</a></li>
                                     <li class="nav-item"><a class="page-scroll" href="#kontak">Kontak</a></li>
-                                    <li class="nav-item"><a href="tracking.php">Tracking Antrian</a></li>
+                                    <li class="nav-item"><a href="tracking.php">Cek Antrian</a></li>
                                 </ul>
                             </div>
                         </nav>
@@ -129,8 +184,8 @@ $iconMap = ['BPJS' => 'lni-shield', 'Non BPJS' => 'lni-heart-monitor'];
                             </div>
                             <div class="single_counter counter_2 d-flex justify-content-center align-items-center wow fadeInUpBig" data-wow-duration="1.3s" data-wow-delay="0.8s">
                                 <div class="counter_wrapper">
-                                    <span class="counter"><?= (int)$totalAntrianHariIni ?></span>
-                                    <p>Antrian Hari Ini</p>
+                                    <span class="counter"><?= (int)($totalAntrianHariIni > 0 ? $totalAntrianHariIni : $totalAntrianSemua) ?></span>
+                                    <p><?= $totalAntrianHariIni > 0 ? 'Antrian Hari Ini' : 'Total Antrian' ?></p>
                                 </div>
                             </div>
                             <div class="single_counter counter_1 d-flex justify-content-center align-items-center wow fadeInUpBig" data-wow-duration="1.3s" data-wow-delay="1.1s">
@@ -146,6 +201,37 @@ $iconMap = ['BPJS' => 'lni-shield', 'Non BPJS' => 'lni-heart-monitor'];
         </div>
     </section>
     <!--====== ABOUT PART ENDS ======-->
+
+    <!--====== STRUKTUR ORGANISASI START ======-->
+    <section id="struktur-organisasi" class="pt-130 pb-30" style="background:#f7faf9;">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="section_title text-center pb-25">
+                        <h3 class="title">Struktur Organisasi</h3>
+                        <p>Bagan struktur organisasi di <?= clean($nama_puskesmas) ?></p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="org-chart-container wow fadeInUpBig" data-wow-duration="1.3s" data-wow-delay="0.2s">
+                        <div class="org-chart">
+                            <?php 
+                                $treeHtml = buildFrontTree($strukturList);
+                                if ($treeHtml) {
+                                    echo $treeHtml;
+                                } else {
+                                    echo '<p class="text-center">Belum ada data struktur organisasi.</p>';
+                                }
+                            ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--====== STRUKTUR ORGANISASI ENDS ======-->
 
     <!--====== LAYANAN (dulu "destination/packages") START ======-->
     <section id="layanan" class="destination_area pt-130 pb-30">

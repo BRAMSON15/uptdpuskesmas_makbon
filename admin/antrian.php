@@ -43,7 +43,7 @@ require_once __DIR__ . '/includes/layout_top.php';
                 <td><?= clean($d['nama_pasien']) ?><br><small style="color:var(--muted);"><?= clean($d['no_hp']) ?></small></td>
                 <td><?= clean($d['layanan']) ?></td>
                 <td><?= tanggal_indo($d['tanggal_antrian']) ?></td>
-                <td><?= $d['nomor_antrian'] ?></td>
+                <td><?= format_nomor_antrian($d['nomor_antrian'], $d['layanan']) ?></td>
                 <td><?= badge_status($d['status']) ?></td>
                 <td class="actions">
                     <a href="?hapus=<?= $d['id_antrian'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Hapus data antrian ini?')">Hapus</a>
@@ -58,3 +58,4 @@ require_once __DIR__ . '/includes/layout_top.php';
 </div>
 
 <?php require_once __DIR__ . '/includes/layout_bottom.php'; ?>
+

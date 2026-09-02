@@ -4,11 +4,13 @@ require_once __DIR__ . '/../config/database.php';
 $page_title = 'Dashboard';
 
 $totalAntrianHariIni = $pdo->query("SELECT COUNT(*) c FROM antrian_online WHERE tanggal_antrian = CURDATE()")->fetch()['c'];
+$totalAntrianSemua   = $pdo->query("SELECT COUNT(*) c FROM antrian_online")->fetch()['c'];
 $totalMenunggu       = $pdo->query("SELECT COUNT(*) c FROM antrian_online WHERE status = 'Menunggu'")->fetch()['c'];
 $totalLayanan        = $pdo->query("SELECT COUNT(*) c FROM layanan WHERE status = 'Aktif'")->fetch()['c'];
 $totalPetugas        = $pdo->query("SELECT COUNT(*) c FROM petugas")->fetch()['c'];
 $totalSaranBaru      = $pdo->query("SELECT COUNT(*) c FROM saran_masukan WHERE status = 'Baru'")->fetch()['c'];
 
+// Jika hari ini kosong, tampilkan antrian mendatang; jika tidak, tampilkan hari ini
 $antrianTerbaru = $pdo->query("SELECT * FROM antrian_online ORDER BY id_antrian DESC LIMIT 6")->fetchAll();
 
 require_once __DIR__ . '/includes/layout_top.php';
@@ -19,8 +21,8 @@ require_once __DIR__ . '/includes/layout_top.php';
         <div class="card text-white stat-card-modern" style="background: linear-gradient(135deg, #0d7c66 0%, #119e83 100%);">
             <i class="lni lni-ticket icon-bg text-white"></i>
             <div class="card-body">
-                <h3 class="mb-0"><?= $totalAntrianHariIni ?></h3>
-                <small>Antrian Hari Ini</small>
+                <h3 class="mb-0"><?= $totalAntrianHariIni > 0 ? $totalAntrianHariIni : $totalAntrianSemua ?></h3>
+                <small><?= $totalAntrianHariIni > 0 ? 'Antrian Hari Ini' : 'Total Antrian' ?></small>
             </div>
         </div>
     </div>
@@ -76,7 +78,7 @@ require_once __DIR__ . '/includes/layout_top.php';
                 <td><?= clean($a['nama_pasien']) ?></td>
                 <td><?= clean($a['layanan']) ?></td>
                 <td><?= tanggal_indo($a['tanggal_antrian']) ?></td>
-                <td><?= $a['nomor_antrian'] ?></td>
+                <td><?= format_nomor_antrian($a['nomor_antrian'], $a['layanan']) ?></td>
                 <td><?= badge_status($a['status']) ?></td>
             </tr>
             <?php endforeach; ?>
@@ -88,3 +90,4 @@ require_once __DIR__ . '/includes/layout_top.php';
 </div>
 
 <?php require_once __DIR__ . '/includes/layout_bottom.php'; ?>
+
