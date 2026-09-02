@@ -19,7 +19,7 @@ if (session_status() === PHP_SESSION_NONE) {
  */
 
 //tempat custom link url atau domain hosting
-$CUSTOM_BASE_URL = 'https://uptdpuskesmasmakbon.com/puskesmas-makbon/index.php'; // Kosongi untuk auto-detect (localhost), atau isi dengan URL ngrok tanpa trailing space
+$CUSTOM_BASE_URL = 'https://uptdpuskesmasmakbon.com/index.php'; // Kosongi untuk auto-detect (localhost), atau isi dengan URL ngrok tanpa trailing space
 
 if (!defined('BASE_URL')) {
     if (!empty(trim($CUSTOM_BASE_URL))) {
