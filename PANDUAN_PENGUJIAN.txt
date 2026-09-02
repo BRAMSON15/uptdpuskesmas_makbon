@@ -1,0 +1,149 @@
+========================================================
+PANDUAN PENGUJIAN BLACK BOX - PUSKESMAS MAKBON
+========================================================
+
+DESKRIPSI:
+Dokumen ini berisi panduan lengkap untuk melakukan pengujian Black Box 
+terhadap Sistem Informasi Profil, Layanan & Antrian Online Puskesmas Makbon.
+
+========================================================
+FILE YANG TERSEDIA:
+========================================================
+
+1. Pengujian_Black_Box_Puskesmas_Makbon.htm
+   - Format: HTML yang dapat dibuka di Microsoft Word
+   - Berisi: Tabel pengujian komprehensif dengan 50+ test case
+   - Dapat diedit langsung di Word dan disimpan sebagai .docx
+
+========================================================
+CARA MEMBUKA DOKUMEN:
+========================================================
+
+Pilihan 1: Menggunakan Microsoft Word
+   1. Buka Microsoft Word
+   2. Klik File → Open
+   3. Pilih file: Pengujian_Black_Box_Puskesmas_Makbon.htm
+   4. Word akan otomatis mengkonversi format HTML ke DOCX
+   5. Dokumen siap untuk diedit
+
+Pilihan 2: Menggunakan Browser
+   1. Buka file dengan browser (Chrome, Firefox, Edge, dll)
+   2. Gunakan Print ke PDF untuk menyimpan hasil pengujian
+
+========================================================
+STRUKTUR DOKUMEN:
+========================================================
+
+Dokumen terbagi menjadi 10 bagian utama:
+
+1. Pengujian Modul Pengguna (Publik)
+   - 8 test case untuk halaman publik (index, profil, layanan, jadwal)
+
+2. Pengujian Modul Pendaftaran Antrian Online
+   - 8 test case untuk form pendaftaran dan validasi
+
+3. Pengujian Modul Tracking Antrian
+   - 5 test case untuk tracking status antrian
+
+4. Pengujian Modul Saran & Masukan
+   - 5 test case untuk form saran dan feedback
+
+5. Pengujian Login Admin
+   - 6 test case untuk autentikasi admin
+
+6. Pengujian Dashboard Admin
+   - 3 test case untuk dashboard dan sidebar menu
+
+7. Pengujian Kelola Profil Puskesmas
+   - 5 test case untuk edit profil/visi/misi
+
+8. Pengujian Kelola Layanan
+   - 6 test case untuk CRUD layanan (Create, Read, Update, Delete)
+
+9. Pengujian Kelola Jadwal Operasional
+   - 5 test case untuk CRUD jadwal
+
+10. Pengujian Login Petugas
+    - 5 test case untuk autentikasi petugas
+
+TOTAL: 56 Test Case
+
+========================================================
+CARA MENGGUNAKAN DOKUMEN:
+========================================================
+
+1. MEMBACA TABEL PENGUJIAN
+   Setiap baris tabel berisi:
+   - No: Nomor urut test case
+   - Modul: Nama modul yang ditest
+   - Test Case: Deskripsi kasus pengujian
+   - Input: Data atau aksi yang dilakukan
+   - Expected Result: Hasil yang diharapkan
+   - Actual Result: Hasil yang diperoleh saat pengujian (ANDA ISI)
+   - Status: LULUS, GAGAL, atau PENDING (ANDA ISI)
+
+2. MELAKUKAN PENGUJIAN
+   a. Jalankan setiap test case sesuai urutan
+   b. Catat semua tindakan yang dilakukan di kolom "Input"
+   c. Bandingkan hasil aktual dengan "Expected Result"
+   d. Isi kolom "Actual Result" dengan hasil pengujian
+   e. Tentukan status: LULUS atau GAGAL
+   f. Jika GAGAL, jelaskan error/bug di "Actual Result"
+
+3. MENYIMPAN HASIL PENGUJIAN
+   a. Setelah selesai, simpan dokumen dengan nama:
+      Pengujian_Black_Box_Puskesmas_Makbon_[TANGGAL].docx
+   b. Contoh: Pengujian_Black_Box_Puskesmas_Makbon_2026-07-28.docx
+
+========================================================
+STANDAR PENGISIAN STATUS:
+========================================================
+
+LULUS
+- Sistem berfungsi sesuai expected result
+- Tidak ada error atau bug
+- Validasi data berjalan dengan benar
+
+GAGAL
+- Sistem tidak sesuai expected result
+- Terdapat error atau bug
+- Validasi data tidak bekerja atau output tidak sesuai
+
+PENDING
+- Pengujian belum dilakukan
+- Menunggu data/setup tertentu
+- Status masih dalam proses investigasi
+
+========================================================
+AKUN LOGIN DEFAULT (SETELAH SEED PASSWORD):
+========================================================
+
+Admin:
+- Username: admin
+- Password: admin123
+- URL: http://localhost/puskesmas-makbon/admin/login.php
+
+Petugas:
+- Username: petugas1
+- Password: petugas123
+- URL: http://localhost/puskesmas-makbon/petugas/login.php
+
+Catatan: Akun ini sudah dikonfigurasi di database.
+
+========================================================
+SARAN PENGUJIAN:
+========================================================
+
+1. Test halaman publik terlebih dahulu (tanpa login)
+2. Lanjut ke pengujian antrian dan tracking
+3. Kemudian test fitur admin
+4. Akhiri dengan pengujian petugas
+5. Dokumentasikan setiap bug yang ditemukan
+
+========================================================
+KONTAK SUPPORT:
+========================================================
+
+Untuk pertanyaan atau isu teknis, silakan hubungi tim development.
+
+========================================================
