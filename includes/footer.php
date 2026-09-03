@@ -1,8 +1,10 @@
+<?php if (!isset($use_card_wrapper) || $use_card_wrapper === true): ?>
                     </div> <!-- end content-card -->
                 </div>
             </div>
         </div>
     </section>
+    <?php endif; ?>
     <!--====== MAIN CONTENT ENDS ======-->
 
     <!--====== FOOTER PART START ======-->
