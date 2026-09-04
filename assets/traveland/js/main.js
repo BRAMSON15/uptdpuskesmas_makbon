@@ -9,12 +9,7 @@ $(function() {
     });
     
     
-    //===== Sticky
-
-    $(window).on('scroll', function (event) {
-        var scroll = $(window).scrollTop();
-        $(".header_navbar").addClass("sticky");
-    });
+    
     
     
     //===== Section Menu Active

@@ -23,8 +23,18 @@ $base = $base ?? '';
     <link rel="stylesheet" href="<?= $base ?>assets/traveland/css/style.css">
 
     <style>
-        .navbar-brand-text { font-size: 1.3rem; font-weight: 700; color: #fff; letter-spacing: .02em; }
-        .header_navbar .navbar-brand-text { color: #17332c; }
+        /* ==== Penyesuaian kecil khusus Puskesmas Makbon (di luar template asli) ==== */
+        .header_navbar {
+            background-color: #fff !important;
+            box-shadow: 0px 20px 50px 0px rgba(0, 0, 0, 0.05) !important;
+            position: fixed !important;
+        }
+        .navbar-brand-text { font-size: 1.3rem; font-weight: 700; color: #17332c !important; letter-spacing: .02em; }
+        .header_navbar .navbar-brand-text { color: #17332c !important; }
+        .navbar-nav .nav-item a { color: #222 !important; }
+        .navbar-nav .nav-item.active > a, .navbar-nav .nav-item:hover > a { color: #0d7c66 !important; }
+        .navbar-toggler .toggler-icon { background-color: #222 !important; }
+        
         @media (min-width: 992px) {
             .navbar-nav .nav-item a { padding: 10px 14px !important; font-size: 0.95rem !important; }
             .navbar-brand-text { font-size: 1.15rem; }
@@ -125,7 +135,7 @@ $base = $base ?? '';
 </head>
 <body>
     <section class="header_area">
-        <div class="header_navbar sticky">
+        <div class="header_navbar">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
