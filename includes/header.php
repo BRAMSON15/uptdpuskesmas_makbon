@@ -85,7 +85,8 @@ $base = $base ?? '';
             white-space: normal !important;
             display: inline-block;
             padding-right: 15px;
-            word-wrap: break-word;
+            word-wrap: break-word !important;
+            overflow-wrap: break-word !important;
         }
         .nice-select .list {
             width: 100% !important;
@@ -98,32 +99,25 @@ $base = $base ?? '';
             padding-top: 8px !important;
             padding-bottom: 8px !important;
             min-height: auto !important;
-            word-wrap: break-word;
+            word-wrap: break-word !important;
+            overflow-wrap: break-word !important;
         }
 
-        /* Smaller text and Native Select on mobile for better UX */
+        /* Smaller text on mobile for dropdown to prevent it being too long */
         @media (max-width: 767px) {
-            .nice-select {
-                display: none !important;
+            .nice-select .option {
+                font-size: 11px !important;
+                padding-left: 10px !important;
+                padding-right: 10px !important;
             }
-            select.form-control, select#layananFilter {
-                display: block !important;
-                width: 100% !important;
-                height: 45px !important;
-                padding: 10px 15px !important;
-                border-radius: 5px !important;
-                border: 1px solid #e8e8e8 !important;
-                background-color: #fff !important;
-                color: #333 !important;
-                font-size: 14px !important;
-                -webkit-appearance: menulist !important;
-                appearance: menulist !important;
+            .nice-select .current {
+                font-size: 12px !important;
+            }
+            .nice-select {
+                padding-left: 10px !important;
+                padding-right: 25px !important;
             }
             body {
-                overflow-x: hidden !important;
-                width: 100%;
-            }
-            .main-content-section, .container {
                 overflow-x: hidden;
             }
         }
