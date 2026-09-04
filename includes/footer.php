@@ -14,14 +14,14 @@
                 <div class="row">
                     <div class="col-lg-4 col-md-6 order-md-1 order-lg-1">
                         <div class="footer_about mt-50">
-                            <a href="<?= $base ?? '' ?>index.php" class="navbar-brand-text d-flex align-items-center" style="display:inline-flex;margin-bottom:14px; color:#fff; font-size:1.4rem; font-weight:700;">
+                            <a href="<?= $base ?? '' ?>index.php" class="navbar-brand-text d-flex align-items-center" style="display:inline-flex;margin-bottom:14px; color:#white; font-size:1.4rem; font-weight:700;">
                                 <img src="<?= $base ?? '' ?>assets/img/logo.png?v=<?= time() ?>" alt="Logo" style="height: 50px; margin-right: 10px;">
                                 <span><?= clean($nama_puskesmas) ?></span>
                             </a>
                             <p><?= clean($profil['deskripsi_beranda'] ?? 'Melayani kesehatan masyarakat dengan cepat, ramah, dan terpercaya.') ?></p>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-12 order-md-3 order-lg-2">
+                    <!-- <div class="col-lg-4 col-md-12 order-md-3 order-lg-2">
                         <div class="footer_link_wrapper d-flex flex-wrap">
                             <div class="footer_link mt-45">
                                 <h4 class="footer_title">Tautan Cepat</h4>
@@ -35,8 +35,8 @@
                                 </ul>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 order-md-2 order-lg-3">
+                    </div> -->
+                    <!-- <div class="col-lg-4 col-md-6 order-md-2 order-lg-3">
                         <div class="footer_subscribe mt-45">
                             <h4 class="footer_title">Lainnya</h4>
                             <ul class="link">
@@ -46,7 +46,7 @@
                                 <li><a href="<?= $base ?? '' ?>petugas/login.php">Login Petugas</a></li>
                             </ul>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <p class="text-center mt-60">&copy; <?= date('Y') ?> <?= clean($nama_puskesmas) ?>. Sistem Informasi Profil, Layanan & Antrian Online.</p>
