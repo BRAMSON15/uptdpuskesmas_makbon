@@ -160,6 +160,8 @@ $base = $base ?? '';
                                     <li class="nav-item <?= (isset($page_title) && strpos($page_title, 'Jadwal') !== false) ? 'active' : '' ?>"><a href="<?= $base ?>jadwal.php">Jadwal</a></li>
                                     <li class="nav-item <?= (isset($page_title) && strpos($page_title, 'Kontak') !== false) ? 'active' : '' ?>"><a href="<?= $base ?>kontak.php">Kontak</a></li>
                                     <li class="nav-item <?= (isset($page_title) && strpos($page_title, 'Tracking') !== false || isset($page_title) && strpos($page_title, 'Cek') !== false) ? 'active' : '' ?>"><a href="<?= $base ?>tracking.php">Cek Antrian</a></li>
+                                    
+                                    </div>
                                 </ul>
                             </div>
                         </nav>

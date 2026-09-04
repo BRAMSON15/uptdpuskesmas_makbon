@@ -1,9 +1,0 @@
-Login attempt. User: 'petugas1', Pass: 'petugas1'. DB User Found: Yes. Verify Result: True. 
-Login attempt. User: 'petugas1', Pass: 'petugas1'. DB User Found: Yes. Verify Result: True. 
-Login attempt. User: 'petugas1', Pass: 'petugas1'. DB User Found: Yes. Verify Result: True. 
-Login attempt. User: 'Petrabram', Pass: 'Petra'. DB User Found: Yes. Verify Result: True. 
-Login attempt. User: 'Petrabram', Pass: 'Petra'. DB User Found: Yes. Verify Result: True. 
-Login attempt. User: 'dshsxni', Pass: 'sbwusbw'. DB User Found: No. 
-Login attempt. User: 'petugas1', Pass: 'petugas1'. DB User Found: Yes. Verify Result: True. 
-Login attempt. User: 'Petrabram', Pass: 'Bram123'. DB User Found: Yes. Verify Result: True. 
-Login attempt. User: 'Petrabram', Pass: 'Bram123'. DB User Found: Yes. Verify Result: True. 

@@ -2,8 +2,13 @@
 require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../config/database.php';
 
+if (!is_panel_host('admin')) {
+    http_response_code(403);
+    exit('Login admin hanya tersedia melalui subdomain admin.');
+}
+
 if (!empty($_SESSION['admin_id'])) {
-    redirect('dashboard.php');
+    redirect(panel_url('admin', 'dashboard.php'));
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -17,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($admin && password_verify($password, $admin['password'])) {
         $_SESSION['admin_id']   = $admin['id_admin'];
         $_SESSION['admin_nama'] = $admin['nama_admin'];
-        redirect('dashboard.php');
+        redirect(panel_url('admin', 'dashboard.php'));
     } else {
         set_flash('error', 'Username atau password salah.');
         redirect('login.php');

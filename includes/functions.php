@@ -19,8 +19,7 @@ if (session_status() === PHP_SESSION_NONE) {
  */
 
 //tempat custom link url atau domain hosting
-$CUSTOM_BASE_URL = 'https://uptdpuskesmasmakbon.com/index.php'; // Kosongi untuk auto-detect (localhost), atau isi dengan URL ngrok tanpa trailing space
-//$CUSTOM_BASE_URL = 'http://localhost/puskesmas-makbon/index.php'; // Kosongi untuk auto-detect (localhost), atau isi dengan URL ngrok tanpa trailing space
+$CUSTOM_BASE_URL = ''; // Kosongi agar URL mengikuti host aktif, baik localhost maupun production.
 if (!defined('BASE_URL')) {
     if (!empty(trim($CUSTOM_BASE_URL))) {
         // Pakai URL manual (ngrok, dll)
@@ -40,6 +39,32 @@ if (!defined('BASE_URL')) {
 function base_url($path = '')
 { 
     return BASE_URL . ltrim($path, '/');
+}
+
+/** Memastikan panel hanya dibuka dari subdomain yang sesuai. */
+function is_panel_host($panel)
+{
+    $host = strtolower($_SERVER['HTTP_HOST'] ?? '');
+    $host = preg_replace('/:\d+$/', '', $host);
+
+    if (in_array($host, ['localhost', '127.0.0.1'], true)) {
+        return true;
+    }
+
+    return $host === $panel . '.uptdpuskesmasmakbon.com';
+}
+
+/** Membuat URL panel sesuai environment lokal atau production. */
+function panel_url($panel, $path = '')
+{
+    $host = strtolower($_SERVER['HTTP_HOST'] ?? '');
+    $host = preg_replace('/:\d+$/', '', $host);
+
+    if (in_array($host, ['localhost', '127.0.0.1'], true)) {
+        return base_url($panel . '/' . ltrim($path, '/'));
+    }
+
+    return 'https://' . $panel . '.uptdpuskesmasmakbon.com/' . ltrim($path, '/');
 }
 
 /** Bersihkan input dari karakter berbahaya sebelum ditampilkan */

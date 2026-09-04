@@ -2,8 +2,13 @@
 require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../config/database.php';
 
+if (!is_panel_host('petugas')) {
+    http_response_code(403);
+    exit('Login petugas hanya tersedia melalui subdomain petugas.');
+}
+
 if (!empty($_SESSION['petugas_id'])) {
-    redirect('dashboard.php');
+    redirect(panel_url('petugas', 'dashboard.php'));
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -14,19 +19,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute([$username]);
     $petugas = $stmt->fetch();
 
-    // -- BEGIN DEBUG LOGGING --
-    $log_msg = "Login attempt. User: '{$username}', Pass: '{$password}'. ";
-    $log_msg .= "DB User Found: " . ($petugas ? 'Yes' : 'No') . ". ";
-    if ($petugas) {
-        $log_msg .= "Verify Result: " . (password_verify($password, $petugas['password']) ? 'True' : 'False') . ". ";
-    }
-    file_put_contents(__DIR__ . '/login_debug.txt', $log_msg . "\n", FILE_APPEND);
-    // -- END DEBUG LOGGING --
-
     if ($petugas && password_verify($password, $petugas['password'])) {
         $_SESSION['petugas_id']   = $petugas['id_petugas'];
         $_SESSION['petugas_nama'] = $petugas['nama_petugas'];
-        redirect('dashboard.php');
+        redirect(panel_url('petugas', 'dashboard.php'));
     } else {
         set_flash('error', 'Username atau password salah.');
         redirect('login.php');
