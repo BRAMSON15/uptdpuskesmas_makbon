@@ -70,6 +70,63 @@ $base = $base ?? '';
         .org-chart li .node-box .jabatan { font-weight: 700; display: block; color: #0d3d33; margin-bottom: 5px; font-size: 14px; }
         .org-chart li .node-box .nama { font-size: 13px; color: #555; }
         .org-chart li .node-box:hover { background: #e4f4ec; transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0,0,0,0.15); }
+        
+        /* Fix nice-select responsive text overflow */
+        .nice-select {
+            width: 100% !important;
+            white-space: normal !important;
+            height: auto !important;
+            line-height: normal !important;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            max-width: 100%;
+        }
+        .nice-select .current {
+            white-space: normal !important;
+            display: inline-block;
+            padding-right: 15px;
+            word-wrap: break-word;
+        }
+        .nice-select .list {
+            width: 100% !important;
+            max-width: 100vw;
+            box-sizing: border-box;
+        }
+        .nice-select .option {
+            white-space: normal !important;
+            line-height: 1.3 !important;
+            padding-top: 8px !important;
+            padding-bottom: 8px !important;
+            min-height: auto !important;
+            word-wrap: break-word;
+        }
+
+        /* Smaller text and Native Select on mobile for better UX */
+        @media (max-width: 767px) {
+            .nice-select {
+                display: none !important;
+            }
+            select.form-control, select#layananFilter {
+                display: block !important;
+                width: 100% !important;
+                height: 45px !important;
+                padding: 10px 15px !important;
+                border-radius: 5px !important;
+                border: 1px solid #e8e8e8 !important;
+                background-color: #fff !important;
+                color: #333 !important;
+                font-size: 14px !important;
+                -webkit-appearance: menulist !important;
+                appearance: menulist !important;
+            }
+            body {
+                overflow-x: hidden !important;
+                width: 100%;
+            }
+            .main-content-section, .container {
+                overflow-x: hidden;
+            }
+        }
     </style>
 </head>
 <body>
