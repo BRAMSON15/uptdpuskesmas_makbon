@@ -4,11 +4,11 @@
     <meta charset="utf-8">
     <title><?= clean($page_title ?? 'Dashboard') ?> - Admin Puskesmas Makbon</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="../assets/traveland/images/favicon.png" type="image/png">
-    <link rel="stylesheet" href="../assets/traveland/css/LineIcons.2.0.css">
-    <link rel="stylesheet" href="../assets/traveland/css/bootstrap.4.5.2.min.css">
-    <link rel="stylesheet" href="../assets/traveland/css/default.css">
-    <link rel="stylesheet" href="../assets/traveland/css/style.css">
+    <link rel="shortcut icon" href="<?= public_url('assets/traveland/images/favicon.png') ?>" type="image/png">
+    <link rel="stylesheet" href="<?= public_url('assets/traveland/css/LineIcons.2.0.css') ?>">
+    <link rel="stylesheet" href="<?= public_url('assets/traveland/css/bootstrap.4.5.2.min.css') ?>">
+    <link rel="stylesheet" href="<?= public_url('assets/traveland/css/default.css') ?>">
+    <link rel="stylesheet" href="<?= public_url('assets/traveland/css/style.css') ?>">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

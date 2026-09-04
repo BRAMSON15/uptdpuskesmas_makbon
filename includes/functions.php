@@ -41,6 +41,19 @@ function base_url($path = '')
     return BASE_URL . ltrim($path, '/');
 }
 
+/** URL untuk aset yang berada di public_html/assets. */
+function public_url($path = '')
+{
+    $host = strtolower($_SERVER['HTTP_HOST'] ?? '');
+    $host = preg_replace('/:\d+$/', '', $host);
+
+    if (in_array($host, ['localhost', '127.0.0.1'], true)) {
+        return base_url($path);
+    }
+
+    return 'https://uptdpuskesmasmakbon.com/' . ltrim($path, '/');
+}
+
 /** Memastikan panel hanya dibuka dari subdomain yang sesuai. */
 function is_panel_host($panel)
 {

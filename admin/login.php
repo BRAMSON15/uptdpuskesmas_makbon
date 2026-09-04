@@ -35,10 +35,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="utf-8">
     <title>Login Admin - Puskesmas Makbon</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="../assets/traveland/images/favicon.png" type="image/png">
-    <link rel="stylesheet" href="../assets/traveland/css/bootstrap.4.5.2.min.css">
-    <link rel="stylesheet" href="../assets/traveland/css/default.css">
-    <link rel="stylesheet" href="../assets/traveland/css/style.css">
+    <link rel="shortcut icon" href="<?= public_url('assets/traveland/images/favicon.png') ?>" type="image/png">
+    <link rel="stylesheet" href="<?= public_url('assets/traveland/css/bootstrap.4.5.2.min.css') ?>">
+    <link rel="stylesheet" href="<?= public_url('assets/traveland/css/default.css') ?>">
+    <link rel="stylesheet" href="<?= public_url('assets/traveland/css/style.css') ?>">
     <style>
         .login-wrapper {
             min-height: 100vh;
@@ -86,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <button type="submit" class="main-btn w-100 mb-3">Masuk</button>
             </form>
             
-            <a href="../index.php" class="text-muted text-decoration-none">&larr; Kembali ke Beranda</a>
+            <a href="<?= public_url('index.php') ?>" class="text-muted text-decoration-none">&larr; Kembali ke Beranda</a>
         </div>
     </div>
 </body>

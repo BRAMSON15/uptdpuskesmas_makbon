@@ -1,7 +1,7 @@
 <?php $current = basename($_SERVER['SCRIPT_NAME']); ?>
 <aside class="sidebar">
     <div class="side-brand">
-        <img src="../assets/img/logo.png" alt="Logo" style="height:40px; width:40px; object-fit:contain;">
+        <img src="<?= public_url('assets/img/logo.png') ?>" alt="Logo" style="height:40px; width:40px; object-fit:contain;">
         <div>
             Puskesmas Makbon
             <small>Panel Admin</small>
