@@ -315,6 +315,34 @@
             font-weight: 500;
             font-size: 0.8rem;
         }
+
+        /* Keep navigation and actions readable if the icon font is unavailable. */
+        .sidebar .lni, .user-chip .lni, button .lni, a .lni {
+            width: 24px;
+            min-width: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .sidebar .lni::before { font-family: Arial, sans-serif; font-size: 0; }
+        .sidebar .lni-dashboard::before { content: '\2302'; }
+        .sidebar .lni-apartment::before { content: '\2302'; }
+        .sidebar .lni-layers::before { content: '\25A4'; }
+        .sidebar .lni-calendar::before { content: '\25A3'; }
+        .sidebar .lni-list::before { content: '\2637'; }
+        .sidebar .lni-map-marker::before { content: '\2316'; }
+        .sidebar .lni-network::before { content: '\25C7'; }
+        .sidebar .lni-users::before { content: '\265F'; }
+        .sidebar .lni-comments::before { content: '\2709'; }
+        .sidebar .lni-phone::before { content: '\260E'; }
+        .sidebar .lni-exit::before { content: '\21AA'; }
+        .sidebar .lni-checkmark-circle::before { content: '\2713'; }
+        .sidebar .lni-printer::before { content: '\25A3'; }
+        .sidebar .lni::before { font-size: 1rem; font-weight: 700; }
+        .lni-save::before { content: '\1F4BE'; font-family: Arial, sans-serif; }
+        .lni-plus::before { content: '+'; font-family: Arial, sans-serif; }
+        .lni-minus::before { content: '\2212'; font-family: Arial, sans-serif; }
+        .lni-reload::before { content: '\21BB'; font-family: Arial, sans-serif; }
     </style>
 </head>
 <body>
