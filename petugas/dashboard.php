@@ -34,9 +34,23 @@ if (empty($antrianHariIniList)) {
 require_once __DIR__ . '/includes/layout_top.php';
 ?>
 
+<div class="dashboard-intro">
+    <div>
+        <h2>Ruang kerja petugas</h2>
+        <p>Kelola alur antrian dan pelayanan pasien hari ini.</p>
+    </div>
+    <div class="dashboard-date"><i class="lni lni-calendar"></i> <?= tanggal_indo(date('Y-m-d')) ?></div>
+</div>
+
+<div class="quick-actions">
+    <a href="antrian.php" class="btn btn-primary"><i class="lni lni-list"></i> Kelola Antrian</a>
+    <a href="verifikasi.php" class="btn btn-outline-secondary"><i class="lni lni-checkmark-circle"></i> Verifikasi Pasien</a>
+    <a href="laporan.php" class="btn btn-outline-secondary"><i class="lni lni-printer"></i> Buka Laporan</a>
+</div>
+
 <div class="row mb-4">
     <div class="col-md-3 mb-3">
-        <div class="card text-white stat-card-modern" style="background: linear-gradient(135deg, #0d7c66 0%, #119e83 100%);">
+        <div class="card stat-card-modern accent-teal">
             <i class="lni lni-users icon-bg text-white"></i>
             <div class="card-body">
                 <h3 class="mb-0"><?= $totalSemua ?></h3>
@@ -45,7 +59,7 @@ require_once __DIR__ . '/includes/layout_top.php';
         </div>
     </div>
     <div class="col-md-3 mb-3">
-        <div class="card text-white stat-card-modern" style="background: linear-gradient(135deg, #f39c12 0%, #f1c40f 100%);">
+        <div class="card stat-card-modern accent-amber">
             <i class="lni lni-timer icon-bg text-white"></i>
             <div class="card-body">
                 <h3 class="mb-0"><?= $totalMenunggu ?></h3>
@@ -54,7 +68,7 @@ require_once __DIR__ . '/includes/layout_top.php';
         </div>
     </div>
     <div class="col-md-3 mb-3">
-        <div class="card text-white stat-card-modern" style="background: linear-gradient(135deg, #2980b9 0%, #3498db 100%);">
+        <div class="card stat-card-modern accent-blue">
             <i class="lni lni-spinner-solid icon-bg text-white"></i>
             <div class="card-body">
                 <h3 class="mb-0"><?= $totalDiproses ?></h3>
@@ -63,7 +77,7 @@ require_once __DIR__ . '/includes/layout_top.php';
         </div>
     </div>
     <div class="col-md-3 mb-3">
-        <div class="card text-white stat-card-modern" style="background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);">
+        <div class="card stat-card-modern accent-green">
             <i class="lni lni-checkmark icon-bg text-white"></i>
             <div class="card-body">
                 <h3 class="mb-0"><?= $totalSelesai ?></h3>
