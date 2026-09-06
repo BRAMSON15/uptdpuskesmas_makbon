@@ -18,8 +18,8 @@ if (session_status() === PHP_SESSION_NONE) {
  * -----------------------------------------------------------
  */
 
-//tempat custom link url atau domain hosting
-$CUSTOM_BASE_URL = ''; // Kosongi agar URL mengikuti host aktif, baik localhost maupun production.
+// Gunakan base URL lokal saat menjalankan aplikasi melalui Laragon.
+$CUSTOM_BASE_URL = 'http://localhost/puskesmas-makbon/';
 if (!defined('BASE_URL')) {
     if (!empty(trim($CUSTOM_BASE_URL))) {
         // Pakai URL manual (ngrok, dll)
