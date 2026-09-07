@@ -53,4 +53,38 @@ require_once __DIR__ . '/includes/header.php';
         </div>
     </section>
     <!--====== LAYANAN ENDS ======-->
+    <script>
+        (function () {
+            const filter = document.getElementById('layananFilter');
+            const items = Array.from(document.querySelectorAll('.layanan-item'));
+            const emptyMessage = document.getElementById('layananFilterEmpty');
+
+            if (!filter || !items.length) {
+                return;
+            }
+
+            function applyFilter() {
+                const selectedType = filter.value;
+                let visibleCount = 0;
+
+                items.forEach(function (item) {
+                    const shouldShow = selectedType === 'Semua' || item.dataset.jenis === selectedType;
+                    item.style.display = shouldShow ? '' : 'none';
+                    visibleCount += shouldShow ? 1 : 0;
+                });
+
+                if (emptyMessage) {
+                    emptyMessage.style.display = visibleCount === 0 ? '' : 'none';
+                }
+            }
+
+            filter.addEventListener('change', applyFilter);
+            window.addEventListener('load', function () {
+                if (window.jQuery) {
+                    window.jQuery(filter).on('change', applyFilter);
+                }
+                applyFilter();
+            });
+        }());
+    </script>
 <?php require_once __DIR__ . '/includes/footer.php'; ?>
