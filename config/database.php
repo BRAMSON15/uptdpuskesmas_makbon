@@ -4,15 +4,15 @@
  * Menggunakan PDO agar aman dari SQL Injection (prepared statement)
  */
 
-// $DB_HOST = 'localhost';
-// $DB_NAME = 'u636563619_pkmmakbon02';
-// $DB_USER = 'u636563619_pkmmakbon02';
-// $DB_PASS = '*6iGLe^W';
-
 $DB_HOST = 'localhost';
-$DB_NAME = 'puskesmas_makbon';
-$DB_USER = 'root';
-$DB_PASS = '';  
+$DB_NAME = 'u636563619_pkmmakbon02';
+$DB_USER = 'u636563619_pkmmakbon02';
+$DB_PASS = '*6iGLe^W';
+
+// $DB_HOST = 'localhost';
+// $DB_NAME = 'puskesmas_makbon';
+// $DB_USER = 'root';
+// $DB_PASS = '';  
 
 try {
     $pdo = new PDO(
