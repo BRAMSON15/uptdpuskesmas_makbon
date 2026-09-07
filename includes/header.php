@@ -141,7 +141,7 @@ $base = $base ?? '';
                     <div class="col-lg-12">
                         <nav class="navbar navbar-expand-lg">
                             <a class="navbar-brand navbar-brand-text d-flex align-items-center" href="<?= $base ?>index.php">
-                                <img src="<?= $base ?>assets/img/logo.png?v=<?= time() ?>" alt="Logo" style="height: 50px; margin-right: 10px;">
+                                <img src="<?= public_url('assets/img/logo.png') ?>?v=<?= filemtime(__DIR__ . '/../assets/img/logo.png') ?>" alt="Logo UPTD Puskesmas Makbon" style="height: 50px; width: 50px; object-fit: contain; margin-right: 10px;">
                                 <span><?= clean($nama_puskesmas) ?></span>
                             </a>
                             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
