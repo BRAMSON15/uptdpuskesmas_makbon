@@ -147,3 +147,18 @@ KONTAK SUPPORT:
 Untuk pertanyaan atau isu teknis, silakan hubungi tim development.
 
 ========================================================
+KONFIGURASI NOTIFIKASI WHATSAPP FONNTE:
+========================================================
+
+1. Buat atau salin token perangkat dari dashboard Fonnte.
+2. Set environment variable FONNTE_TOKEN pada PHP/Laragon.
+   Contoh PowerShell sebelum menjalankan Apache:
+   $env:FONNTE_TOKEN = 'TOKEN_FONNTE_ANDA'
+3. Pastikan ekstensi PHP cURL aktif.
+4. Daftarkan antrian dengan nomor WhatsApp aktif.
+5. Sistem mengirim notifikasi saat pendaftaran, dipanggil, selesai, atau dibatalkan.
+6. Halaman tracking menampilkan nomor yang sedang dilayani dan jumlah antrean sebelum nomor pasien.
+
+Jika token belum diisi, proses pendaftaran dan perubahan status tetap berjalan tanpa mengirim WhatsApp.
+
+========================================================

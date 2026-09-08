@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/includes/auth.php';
 require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../includes/whatsapp.php';
 $page_title = 'Kelola Antrian Online';
 
 // Update status / panggil / batalkan
@@ -13,11 +14,25 @@ if (isset($_GET['aksi'], $_GET['id'])) {
         'batalkan'  => ['status' => 'Dibatalkan','ket' => 'Antrian dibatalkan oleh petugas.'],
     ];
     if (isset($map[$aksi])) {
+        $stmt = $pdo->prepare("SELECT * FROM antrian_online WHERE id_antrian = ?");
+        $stmt->execute([$id]);
+        $dataAntrian = $stmt->fetch();
+
         $stmt = $pdo->prepare("UPDATE antrian_online SET status = ?, id_petugas = ? WHERE id_antrian = ?");
         $stmt->execute([$map[$aksi]['status'], $_SESSION['petugas_id'], $id]);
 
         $stmt = $pdo->prepare("INSERT INTO tracking_antrian (id_antrian, status, keterangan) VALUES (?,?,?)");
         $stmt->execute([$id, $map[$aksi]['status'], $map[$aksi]['ket']]);
+
+        if ($dataAntrian && !empty($dataAntrian['no_hp'])) {
+            $nomorSaatIni = null;
+            if ($map[$aksi]['status'] === 'Diproses') {
+                $stmt = $pdo->prepare("SELECT MAX(nomor_antrian) AS nomor FROM antrian_online WHERE id_layanan = ? AND tanggal_antrian = ? AND status = 'Diproses'");
+                $stmt->execute([$dataAntrian['id_layanan'], $dataAntrian['tanggal_antrian']]);
+                $nomorSaatIni = (int)$stmt->fetch()['nomor'];
+            }
+            kirim_whatsapp_fonnte($dataAntrian['no_hp'], pesan_status_antrian($dataAntrian, $map[$aksi]['status'], $nomorSaatIni));
+        }
 
         set_flash('success', 'Status antrian berhasil diperbarui.');
     }

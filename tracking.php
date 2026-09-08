@@ -6,6 +6,9 @@ require_once __DIR__ . '/includes/header.php';
 
 $data = null;
 $riwayat = [];
+$nomorSaatIni = null;
+$sisaSebelum = 0;
+$totalMenunggu = 0;
 $id_antrian = trim($_GET['id_antrian'] ?? '');
 
 if ($id_antrian !== '') {
@@ -17,12 +20,24 @@ if ($id_antrian !== '') {
         $stmt = $pdo->prepare("SELECT * FROM tracking_antrian WHERE id_antrian = ? ORDER BY waktu_update ASC");
         $stmt->execute([$id_antrian]);
         $riwayat = $stmt->fetchAll();
+
+        $stmt = $pdo->prepare("SELECT MAX(nomor_antrian) AS nomor FROM antrian_online WHERE id_layanan = ? AND tanggal_antrian = ? AND status = 'Diproses'");
+        $stmt->execute([$data['id_layanan'], $data['tanggal_antrian']]);
+        $nomorSaatIni = (int)($stmt->fetch()['nomor'] ?? 0);
+
+        $stmt = $pdo->prepare("SELECT COUNT(*) AS jumlah FROM antrian_online WHERE id_layanan = ? AND tanggal_antrian = ? AND status = 'Menunggu' AND nomor_antrian < ?");
+        $stmt->execute([$data['id_layanan'], $data['tanggal_antrian'], $data['nomor_antrian']]);
+        $sisaSebelum = (int)$stmt->fetch()['jumlah'];
+
+        $stmt = $pdo->prepare("SELECT COUNT(*) AS jumlah FROM antrian_online WHERE id_layanan = ? AND tanggal_antrian = ? AND status = 'Menunggu'");
+        $stmt->execute([$data['id_layanan'], $data['tanggal_antrian']]);
+        $totalMenunggu = (int)$stmt->fetch()['jumlah'];
     }
 }
 ?>
 
 <h4 class="mb-3">Cek Status Antrian Anda</h4>
-<p class="mb-4 text-muted">Masukkan nomor ID antrian Anda (tertera di bukti pendaftaran) untuk melihat status terkini.</p>
+<p class="mb-4 text-muted">Masukkan ID antrian Anda yang tertera di bukti pendaftaran untuk melihat status terkini.</p>
 
 <form method="GET">
     <div class="form-group">
@@ -37,17 +52,33 @@ if ($id_antrian !== '') {
 <?php elseif ($data): ?>
     <div class="mt-5">
         <div class="panel-head d-flex justify-content-between align-items-center">
-            <span>Detail Antrian #<?= clean($data['id_antrian']) ?></span> 
+            <span>Detail ID Antrian #<?= clean($data['id_antrian']) ?></span> 
             <?= badge_status($data['status']) ?>
         </div>
         <div class="table-responsive">
             <table class="table table-bordered">
                 <tr><th width="35%">Nama Pasien</th><td><?= clean($data['nama_pasien']) ?></td></tr>
                 <tr><th>Layanan</th><td><?= clean($data['layanan']) ?></td></tr>
-                <tr><th>Nomor Antrian</th><td><?= format_nomor_antrian($data['nomor_antrian'], $data['layanan']) ?></td></tr>
+                <tr><th>Nomor Layanan</th><td><?= format_nomor_antrian($data['nomor_antrian'], $data['layanan']) ?></td></tr>
                 <tr><th>Tanggal Kunjungan</th><td><?= tanggal_indo($data['tanggal_antrian']) ?></td></tr>
             </table>
         </div>
+
+        <?php if ($data['status'] === 'Menunggu' || $data['status'] === 'Diproses'): ?>
+        <div class="alert alert-info mt-4">
+            <?php if ($nomorSaatIni > 0): ?>
+                <strong>Sedang dilayani: <?= clean(format_nomor_antrian($nomorSaatIni, $data['layanan'])) ?></strong><br>
+            <?php else: ?>
+                <strong>Belum ada nomor yang sedang dilayani.</strong><br>
+            <?php endif; ?>
+            <?php if ($data['status'] === 'Menunggu'): ?>
+                Ada <strong><?= $sisaSebelum ?></strong> antrean sebelum nomor Anda dan <strong><?= $totalMenunggu ?></strong> antrean masih menunggu.
+            <?php else: ?>
+                Nomor Anda sedang diproses oleh petugas.
+            <?php endif; ?>
+            <div class="small mt-1">Halaman memperbarui posisi secara otomatis.</div>
+        </div>
+        <?php endif; ?>
 
         <h5 class="mt-4 mb-3" style="color:#0d7c66;">Riwayat Status</h5>
         <ul class="list-group list-group-flush">
@@ -64,4 +95,10 @@ if ($id_antrian !== '') {
 <?php endif; ?>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>
+
+<?php if ($data && in_array($data['status'], ['Menunggu', 'Diproses'], true)): ?>
+<script>
+    setTimeout(function () { window.location.reload(); }, 15000);
+</script>
+<?php endif; ?>
 

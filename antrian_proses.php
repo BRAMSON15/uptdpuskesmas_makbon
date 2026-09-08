@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/includes/functions.php';
+require_once __DIR__ . '/includes/whatsapp.php';
 require_once __DIR__ . '/config/database.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -47,5 +48,15 @@ $id_antrian = $pdo->lastInsertId();
 
 $stmt = $pdo->prepare("INSERT INTO tracking_antrian (id_antrian, status, keterangan) VALUES (?, 'Menunggu', 'Pendaftaran antrian berhasil dibuat.')");
 $stmt->execute([$id_antrian]);
+
+$data = [
+    'id_antrian' => $id_antrian,
+    'nama_pasien' => $nama_pasien,
+    'no_hp' => $no_hp,
+    'layanan' => $layanan['nama_layanan'],
+    'tanggal_antrian' => $tanggal_antrian,
+    'nomor_antrian' => $nomor_antrian,
+];
+kirim_whatsapp_fonnte($no_hp, pesan_status_antrian($data, 'Menunggu'));
 
 redirect('antrian_sukses.php?id=' . $id_antrian);

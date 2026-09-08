@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/includes/auth.php';
 require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../includes/whatsapp.php';
 $page_title = 'Verifikasi & Validasi Antrian';
 
 $hasil = null;
@@ -14,10 +15,19 @@ if ($cari !== '') {
 
 if (isset($_GET['konfirmasi'])) {
     $id = (int)$_GET['konfirmasi'];
+    $stmt = $pdo->prepare("SELECT * FROM antrian_online WHERE id_antrian = ?");
+    $stmt->execute([$id]);
+    $dataAntrian = $stmt->fetch();
+
     $stmt = $pdo->prepare("UPDATE antrian_online SET status = 'Diproses', id_petugas = ? WHERE id_antrian = ?");
     $stmt->execute([$_SESSION['petugas_id'], $id]);
     $stmt = $pdo->prepare("INSERT INTO tracking_antrian (id_antrian, status, keterangan) VALUES (?, 'Diproses', 'Data pasien telah diverifikasi dan divalidasi petugas.')");
     $stmt->execute([$id]);
+
+    if ($dataAntrian && !empty($dataAntrian['no_hp'])) {
+        kirim_whatsapp_fonnte($dataAntrian['no_hp'], pesan_status_antrian($dataAntrian, 'Diproses', $dataAntrian['nomor_antrian']));
+    }
+
     set_flash('success', 'Antrian berhasil diverifikasi dan dikonfirmasi.');
     redirect('verifikasi.php?cari=' . $cari);
 }
