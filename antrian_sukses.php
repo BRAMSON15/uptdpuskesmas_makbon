@@ -37,7 +37,7 @@ if (!$data) {
         </div>
 
         <div class="mt-4">
-            <a href="tracking.php?id_antrian=<?= $data['id_antrian'] ?>" class="main-btn me-2">Lacak Status Antrian</a>
+            <a href="tracking.php?nomor_antrian=<?= urlencode(format_nomor_antrian($data['nomor_antrian'], $data['layanan'])) ?>" class="main-btn me-2">Lacak Status Antrian</a>
             <a href="index.php" class="main-btn main-btn-2">Kembali ke Beranda</a>
         </div>
     </div>

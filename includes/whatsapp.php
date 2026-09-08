@@ -76,7 +76,7 @@ function pesan_status_antrian($data, $status, $nomorSaatIni = null, $sisaSebelum
     if ($status === 'Menunggu') {
         return "Halo {$nama}, pendaftaran antrean Puskesmas Makbon berhasil.\n"
             . "Nomor: {$nomor}\nLayanan: {$data['layanan']}\nTanggal: {$tanggal}\n"
-            . "Pantau posisi antrean: " . base_url('tracking.php?id_antrian=' . $data['id_antrian']);
+            . "Pantau posisi antrean: " . base_url('tracking.php?nomor_antrian=' . urlencode($nomor));
     }
 
     if ($status === 'Diproses') {

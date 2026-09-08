@@ -82,8 +82,6 @@ require_once __DIR__ . '/includes/layout_top.php';
                         <a href="?aksi=batalkan&id=<?= $d['id_antrian'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Batalkan antrian ini?')">Batalkan</a>
                     <?php elseif ($d['status'] === 'Diproses'): ?>
                         <a href="?aksi=selesai&id=<?= $d['id_antrian'] ?>" class="btn btn-primary btn-sm">Selesaikan</a>
-                    <?php else: ?>
-                        <span style="color:var(--muted);font-size:0.85rem;">Selesai/Batal</span>
                     <?php endif; ?>
                 </td>
             </tr>
