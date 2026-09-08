@@ -29,7 +29,7 @@ if (!$data) {
 
         <div class="table-responsive">
             <table class="table table-bordered text-left">
-                <tr><th width="40%">ID Antrian</th><td>#<?= clean($data['id_antrian']) ?></td></tr>
+                <!-- <tr><th width="40%">ID Antrian</th><td>#<?= clean($data['id_antrian']) ?></td></tr> -->
                 <tr><th>Nama Pasien</th><td><?= clean($data['nama_pasien']) ?></td></tr>
                 <tr><th>Tanggal Kunjungan</th><td><?= tanggal_indo($data['tanggal_antrian']) ?></td></tr>
                 <tr><th>Status</th><td><?= badge_status($data['status']) ?></td></tr>
