@@ -5,7 +5,7 @@ curl_setopt_array($curl, array(
   CURLOPT_RETURNTRANSFER => true,
   CURLOPT_POST => true,
   CURLOPT_HTTPHEADER => array(
-    "Authorization: tEwYp4HuakYRRiyvUwhF"
+    "Authorization: f4t3NCU6ab6tNyCC9Cas"
   ),
 ));
 $response = curl_exec($curl);
