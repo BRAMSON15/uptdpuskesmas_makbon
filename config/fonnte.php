@@ -5,7 +5,7 @@
  */
 
 return [
-    'token' => getenv('FONNTE_TOKEN') ?: 'dvYDFiePNEgc1Kodgebt',
+    'token' => getenv('FONNTE_TOKEN') ?: 'tEwYp4HuakYRRiyvUwhF',
     'endpoint' => 'https://api.fonnte.com/send',
     'timeout' => 10,
 ];
