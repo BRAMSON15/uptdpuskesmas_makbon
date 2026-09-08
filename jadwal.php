@@ -2,7 +2,7 @@
 require_once __DIR__ . '/config/database.php';
 $page_title = 'Jadwal';
 $use_card_wrapper = false;
-$jadwalList = $pdo->query("SELECT * FROM jadwal_operasional ORDER BY FIELD(hari,'Senin','Selasa','Rabu','Kamis','Jumat','Sabtu','Minggu')")->fetchAll();
+$jadwalList = $pdo->query("SELECT * FROM jadwal_operasional ORDER BY CASE WHEN hari = 'Setiap Hari' THEN 99 ELSE FIELD(SUBSTRING_INDEX(hari, ' - ', 1),'Senin','Selasa','Rabu','Kamis','Jumat','Sabtu','Minggu') END")->fetchAll();
 require_once __DIR__ . '/includes/header.php';
 ?>
 <!--====== JADWAL OPERASIONAL (dulu "team") START ======-->

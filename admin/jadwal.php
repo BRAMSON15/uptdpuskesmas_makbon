@@ -12,7 +12,9 @@ if (isset($_GET['hapus'])) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id     = (int)($_POST['id_jadwal'] ?? 0);
-    $hari   = $_POST['hari'];
+    $hariMulai = $_POST['hari_mulai'] ?? '';
+    $hariSelesai = $_POST['hari_selesai'] ?? '';
+    $hari = $hariMulai === $hariSelesai ? $hariMulai : $hariMulai . ' - ' . $hariSelesai;
     $buka   = $_POST['jam_buka'];
     $tutup  = $_POST['jam_tutup'];
     $ket    = trim($_POST['keterangan']);
@@ -36,8 +38,13 @@ if (isset($_GET['edit'])) {
     $edit = $stmt->fetch();
 }
 
-$daftar = $pdo->query("SELECT * FROM jadwal_operasional ORDER BY FIELD(hari,'Senin','Selasa','Rabu','Kamis','Jumat','Sabtu','Minggu')")->fetchAll();
+$daftar = $pdo->query("SELECT * FROM jadwal_operasional ORDER BY CASE WHEN hari = 'Setiap Hari' THEN 99 ELSE FIELD(SUBSTRING_INDEX(hari, ' - ', 1),'Senin','Selasa','Rabu','Kamis','Jumat','Sabtu','Minggu') END")->fetchAll();
 $hariList = ['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu','Minggu'];
+$hariMulai = $edit['hari'] ?? 'Senin';
+$hariSelesai = $hariMulai;
+if (strpos($hariMulai, ' - ') !== false) {
+    [$hariMulai, $hariSelesai] = explode(' - ', $hariMulai, 2);
+}
 
 require_once __DIR__ . '/includes/layout_top.php';
 ?>
@@ -48,10 +55,18 @@ require_once __DIR__ . '/includes/layout_top.php';
         <input type="hidden" name="id_jadwal" value="<?= $edit['id_jadwal'] ?? '' ?>">
         <div class="form-row">
             <div class="form-group">
-                <label>Hari</label>
-                <select name="hari" required>
+                <label>Hari Mulai</label>
+                <select name="hari_mulai" required>
                     <?php foreach ($hariList as $h): ?>
-                    <option value="<?= $h ?>" <?= ($edit['hari'] ?? '') === $h ? 'selected' : '' ?>><?= $h ?></option>
+                    <option value="<?= $h ?>" <?= $hariMulai === $h ? 'selected' : '' ?>><?= $h ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Hari Selesai</label>
+                <select name="hari_selesai" required>
+                    <?php foreach ($hariList as $h): ?>
+                    <option value="<?= $h ?>" <?= $hariSelesai === $h ? 'selected' : '' ?>><?= $h ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>

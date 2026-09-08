@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     redirect('jadwal.php');
 }
 
-$daftar = $pdo->query("SELECT * FROM jadwal_operasional ORDER BY FIELD(hari,'Senin','Selasa','Rabu','Kamis','Jumat','Sabtu','Minggu')")->fetchAll();
+$daftar = $pdo->query("SELECT * FROM jadwal_operasional ORDER BY CASE WHEN hari = 'Setiap Hari' THEN 99 ELSE FIELD(SUBSTRING_INDEX(hari, ' - ', 1),'Senin','Selasa','Rabu','Kamis','Jumat','Sabtu','Minggu') END")->fetchAll();
 
 require_once __DIR__ . '/includes/layout_top.php';
 ?>
