@@ -5,9 +5,9 @@
  */
 
 $DB_HOST = 'localhost';
-$DB_NAME = 'u636563619_pkmmakbon02';
-$DB_USER = 'u636563619_pkmmakbon02';
-$DB_PASS = '*6iGLe^W';
+$DB_NAME = 'u636563619_puskesmas22';
+$DB_USER = 'u636563619_puskesmas22';
+$DB_PASS = '6wA>k!>mzX?';
 
 // $DB_HOST = 'localhost';
 // $DB_NAME = 'puskesmas_makbon';
