@@ -7,6 +7,7 @@
             <small>Panel Petugas</small>
         </div>
     </div>
+    <nav class="sidebar-menu">
     <a href="dashboard.php" class="<?= $current === 'dashboard.php' ? 'active' : '' ?>"><i class="lni lni-dashboard"></i> Dashboard</a>
     <a href="antrian.php" class="<?= $current === 'antrian.php' ? 'active' : '' ?>"><i class="lni lni-list"></i> Kelola Antrian Online</a>
     <a href="verifikasi.php" class="<?= $current === 'verifikasi.php' ? 'active' : '' ?>"><i class="lni lni-checkmark-circle"></i> Verifikasi & Validasi</a>
@@ -16,6 +17,7 @@
     <a href="jadwal.php" class="<?= $current === 'jadwal.php' ? 'active' : '' ?>"><i class="lni lni-calendar"></i> Jadwal Operasional</a>
     <a href="saran.php" class="<?= $current === 'saran.php' ? 'active' : '' ?>"><i class="lni lni-comments"></i> Saran & Masukan</a>
     <a href="laporan.php" class="<?= $current === 'laporan.php' ? 'active' : '' ?>"><i class="lni lni-printer"></i> Laporan</a>
+    </nav>
     <div class="logout-link">
         <a href="logout.php"><i class="lni lni-exit"></i> Logout</a>
     </div>

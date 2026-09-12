@@ -7,6 +7,7 @@
             <small>Panel Admin</small>
         </div>
     </div>
+    <nav class="sidebar-menu">
     <a href="dashboard.php" class="<?= $current === 'dashboard.php' ? 'active' : '' ?>"><i class="lni lni-dashboard"></i> Dashboard</a>
     <a href="profil.php" class="<?= $current === 'profil.php' ? 'active' : '' ?>"><i class="lni lni-apartment"></i> Profil Puskesmas</a>
     <a href="layanan.php" class="<?= $current === 'layanan.php' ? 'active' : '' ?>"><i class="lni lni-layers"></i> Kelola Layanan</a>
@@ -17,6 +18,7 @@
     <a href="petugas.php" class="<?= $current === 'petugas.php' ? 'active' : '' ?>"><i class="lni lni-users"></i> Kelola Petugas</a>
     <a href="saran.php" class="<?= $current === 'saran.php' ? 'active' : '' ?>"><i class="lni lni-comments"></i> Saran & Masukan</a>
     <a href="kontak.php" class="<?= $current === 'kontak.php' ? 'active' : '' ?>"><i class="lni lni-phone"></i> Kontak</a>
+    </nav>
     <div class="logout-link">
         <a href="logout.php"><i class="lni lni-exit"></i> Logout</a>
     </div>

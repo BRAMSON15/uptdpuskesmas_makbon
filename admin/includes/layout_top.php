@@ -478,14 +478,64 @@
         .stat-card-modern:nth-child(4) { animation-delay: .15s; }
         .stat-card-modern:nth-child(5) { animation-delay: .2s; }
         @media (max-width: 767px) {
-            .main-content { padding: 18px 15px; }
-            .topbar { padding: 15px 17px; margin-bottom: 18px; }
+            .dash-wrap { display: block; }
+            .sidebar {
+                width: 100%;
+                min-height: auto;
+                position: relative;
+            }
+            .side-brand {
+                justify-content: flex-start;
+                padding: 14px 16px;
+            }
+            .side-brand img { height: 32px; }
+            .side-brand small { font-size: .72rem; }
+            .sidebar-menu {
+                display: flex;
+                gap: 7px;
+                padding: 10px 12px;
+                overflow-x: auto;
+                scrollbar-width: thin;
+            }
+            .sidebar-menu a {
+                flex: 0 0 auto;
+                margin: 0;
+                padding: 10px 13px;
+                white-space: nowrap;
+                font-size: .86rem;
+            }
+            .sidebar a:hover { transform: none; }
+            .logout-link {
+                padding: 0 12px 12px;
+                border-top: 0;
+            }
+            .logout-link a { width: 100%; }
+            .main-content {
+                min-width: 0;
+                max-height: none;
+                overflow: visible;
+                padding: 18px 15px 24px;
+            }
+            .topbar {
+                gap: 10px;
+                padding: 13px 15px;
+                margin-bottom: 18px;
+                flex-wrap: wrap;
+            }
             .topbar h1 { font-size: 1.25rem; }
+            .user-chip { padding: 7px 12px; font-size: .84rem; }
             .dashboard-intro { align-items: flex-start; flex-direction: column; margin-bottom: 18px; }
             .dashboard-intro h2 { font-size: 1.45rem; }
             .dashboard-date { white-space: normal; }
-            .panel { padding: 18px; overflow-x: auto; }
+            .quick-actions { gap: 8px; margin-bottom: 20px; }
+            .quick-actions .btn { flex: 1 1 100%; justify-content: center; }
+            .panel { padding: 16px; overflow-x: auto; margin-bottom: 18px; }
+            .panel-head { gap: 10px; align-items: flex-start; }
+            .panel-head h2 { font-size: 1.1rem; }
             .panel table { min-width: 680px; }
+            .stat-card-modern { min-height: 118px; }
+            .stat-card-modern .card-body { padding: 18px 20px; }
+            .stat-card-modern h3 { font-size: 2rem; }
         }
     </style>
 </head>
